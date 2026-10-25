@@ -1,0 +1,44 @@
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.legend {
+  font: var(--text-h2);
+  margin-bottom: var(--space-2);
+}
+
+.moods {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.mood {
+  flex: 1;
+  min-width: var(--tap-min);
+  padding: 0;
+  font: var(--text-h2);
+}
+
+.note {
+  color: var(--ink-muted);
+  font: var(--text-small);
+}

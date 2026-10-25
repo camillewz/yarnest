@@ -1,4 +1,4 @@
-import { formatClock, formatDuration } from './format';
+import { formatClock, formatDuration, formatReminderDuration } from './format';
 import { HOUR, MIN } from './testing';
 
 describe('formatClock (RG17, session et minuteur)', () => {
@@ -30,5 +30,19 @@ describe('formatDuration (RG16, RG17, journal)', () => {
     [-MIN, 'en', '0 min'],
   ] as const)('%i ms en %s → %s', (ms, locale, expected) => {
     expect(formatDuration(ms, locale)).toBe(expected);
+  });
+});
+
+describe('formatReminderDuration (rappels R1 à R3)', () => {
+  it.each([
+    [30, 'fr', '30 min'],
+    [60, 'fr', '1 h'],
+    [120, 'fr', '2 h'],
+    [150, 'fr', '2 h 30'],
+    [30, 'en', '30 min'],
+    [60, 'en', '1h'],
+    [150, 'en', '2h 30m'],
+  ] as const)('%i min en %s → %s', (minutes, locale, expected) => {
+    expect(formatReminderDuration(minutes, locale)).toBe(expected);
   });
 });

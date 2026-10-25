@@ -55,6 +55,7 @@ export async function dbAll<T = Record<string, unknown>>(page: Page, store: stri
 
 export const T0 = new Date('2026-10-25T10:00:00Z');
 export const MIN = 60_000;
+export const HOUR_MS = 60 * MIN;
 
 /** Crée un projet et démarre une session dessus. */
 export async function startSession(page: Page, name = 'Bonnet côtelé') {

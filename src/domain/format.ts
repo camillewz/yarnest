@@ -19,3 +19,12 @@ export function formatDuration(ms: number, locale: Locale): string {
   if (h === 0) return `${m} min`;
   return locale === 'fr' ? `${h} h ${pad(m)}` : `${h}h ${pad(m)}m`;
 }
+
+/** Durée ronde annoncée par un rappel : « 30 min », « 1 h », « 2 h 30 » (fr) ; « 1h », « 2h 30m » (en). */
+export function formatReminderDuration(minutes: number, locale: Locale): string {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  if (h === 0) return `${m} min`;
+  if (m === 0) return locale === 'fr' ? `${h} h` : `${h}h`;
+  return formatDuration(minutes * 60_000, locale);
+}

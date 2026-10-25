@@ -131,7 +131,13 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
         </p>
       </section>
 
-      <SessionExtras session={session} project={project} now={now} onPause={openPauseSheet} />
+      <SessionExtras
+        session={session}
+        project={project}
+        pauses={pauses}
+        now={now}
+        onPause={openPauseSheet}
+      />
 
       <Card className={styles.stitches}>
         <span className={styles.stitchLabel} id="stitch-label">

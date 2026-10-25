@@ -14,6 +14,7 @@ import { ConfirmDialog } from '../../ui/Overlay';
 import { Page, PageMessage, pageStyles } from '../../ui/Page';
 import { cx } from '../../ui/cx';
 import { CounterControls } from './CounterControl';
+import { Journal } from './Journal';
 import { STATUSES } from './ProjectFormPage';
 import styles from './ProjectDetail.module.css';
 
@@ -98,6 +99,8 @@ function ProjectDetail({ project }: { project: Project }) {
       {project.note && <p className={styles.note}>{t('project.note', { note: project.note })}</p>}
 
       <CounterControls project={project} />
+
+      <Journal projectId={project.id} />
 
       {conflict && (
         <ConfirmDialog

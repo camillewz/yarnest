@@ -1,6 +1,7 @@
 import {
   REMINDER_THRESHOLDS_MIN,
   continuousKnitStart,
+  reminderMinutes,
   dueReminder,
   reminderChoicePatch,
   reminderShownPatch,
@@ -146,5 +147,18 @@ describe('patchs de session', () => {
     expect(patch).toEqual({ reminderStage: 0 });
     const session = { ...makeSession({ remindersMode: 'off', reminderStage: 3 }), ...patch };
     expect(session.remindersMode).toBe('off');
+  });
+});
+
+describe('reminderMinutes : durée annoncée par le rappel', () => {
+  it('palier atteint pour R1 et R2, même affichés en retard (RG09)', () => {
+    expect(reminderMinutes(1, at(30), at(0))).toBe(30);
+    expect(reminderMinutes(2, at(70), at(0))).toBe(60);
+  });
+
+  it('R3 : demi-heure entamée la plus proche, au moins 2 h', () => {
+    expect(reminderMinutes(3, at(125), at(0))).toBe(120);
+    expect(reminderMinutes(3, at(155), at(0))).toBe(150);
+    expect(reminderMinutes(3, at(181), at(0))).toBe(180);
   });
 });

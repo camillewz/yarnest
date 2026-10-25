@@ -63,3 +63,6 @@ export function useSetting<K extends SettingKey>(key: K): Loaded<SettingsMap[K] 
     return { value: (stored?.value as SettingsMap[K] | undefined) ?? DEFAULTS[key] };
   }, [key]);
 }
+
+export const useReview = (sessionId: string | undefined) =>
+  useById(sessionId, (key) => db.reviews.get(key));

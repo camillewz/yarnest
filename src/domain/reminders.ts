@@ -77,3 +77,17 @@ export function reminderChoicePatch(choice: 'continue' | 'stop'): Pick<Session, 
 export function pauseStartedReminderPatch(): Pick<Session, 'reminderStage'> {
   return { reminderStage: 0 };
 }
+
+/** Durée de tricot continu annoncée : le palier pour R1 et R2, la demi-heure entamée pour R3. */
+export function reminderMinutes(
+  stage: ReminderStage,
+  now: Instant,
+  continuousStart: Instant,
+): number {
+  if (stage < 3) return REMINDER_THRESHOLDS_MIN[stage];
+  const elapsed = Math.floor((now - continuousStart) / MIN);
+  return Math.max(
+    REMINDER_THRESHOLDS_MIN[3],
+    Math.floor(elapsed / REPEAT_INTERVAL_MIN) * REPEAT_INTERVAL_MIN,
+  );
+}
