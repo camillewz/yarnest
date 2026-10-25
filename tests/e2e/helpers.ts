@@ -52,3 +52,40 @@ export async function dbAll<T = Record<string, unknown>>(page: Page, store: stri
     store,
   );
 }
+
+export const T0 = new Date('2026-10-25T10:00:00Z');
+export const MIN = 60_000;
+
+/** Crée un projet et démarre une session dessus. */
+export async function startSession(page: Page, name = 'Bonnet côtelé') {
+  const id = await createProject(page, name);
+  await page.getByRole('button', { name: 'Démarrer une session' }).click();
+  await expect(page).toHaveURL(/\/session$/);
+  return id;
+}
+
+export const knit = (page: Page) => page.getByTestId('knit-time');
+export const pauseTime = (page: Page) => page.getByTestId('pause-time');
+export const sessionTime = (page: Page) => page.getByTestId('session-time');
+export const rowCount = (page: Page) => page.getByTestId('row-count');
+
+export async function launchPause(page: Page, minutes = 5) {
+  await page.getByRole('button', { name: 'Faire une pause' }).click();
+  for (let m = 5; m < minutes; m += 5) {
+    await page.getByRole('button', { name: '5 minutes de plus' }).click();
+  }
+  await page.getByRole('button', { name: 'Lancer' }).click();
+  await expect(page.getByRole('dialog', { name: 'Pause' })).toBeVisible();
+}
+
+/** Heure figée (Date.now constant) que le test avance à la main ; les timers tournent normalement. */
+export async function fixedClock(page: Page, start = T0) {
+  let now = start.getTime();
+  await page.clock.setFixedTime(now);
+  return {
+    advance: async (ms: number) => {
+      now += ms;
+      await page.clock.setFixedTime(now);
+    },
+  };
+}

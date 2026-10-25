@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { DEFAULT_PAUSE_MINUTES } from '../domain/pauses';
-import type { Project } from '../domain/types';
+import type { Project, Session } from '../domain/types';
 import { db, type SettingKey, type SettingsMap } from './schema';
 
 /** `undefined` pendant le chargement ; `{ value: undefined }` si l'élément n'existe pas. */
@@ -9,33 +9,36 @@ type Loaded<T> = { value: T } | undefined;
 export const useProjects = () =>
   useLiveQuery(() => db.projects.orderBy('updatedAt').reverse().toArray());
 
+/** useLiveQuery renvoie l'ancien résultat tant que la requête d'un nouvel id n'a pas répondu :
+ * on ne le retient que s'il correspond bien à l'id demandé. */
+function useById<T>(id: string | undefined, get: (id: string) => Promise<T | undefined>) {
+  const result = useLiveQuery(async () => ({ id, value: id ? await get(id) : undefined }), [id]);
+  return result && result.id === id ? { value: result.value } : undefined;
+}
+
 export const useProject = (id: string | undefined): Loaded<Project | undefined> =>
-  useLiveQuery(async () => ({ value: id ? await db.projects.get(id) : undefined }), [id]);
+  useById(id, (key) => db.projects.get(key));
 
 export const useActiveSession = () =>
   useLiveQuery(async () => ({ value: await db.sessions.filter((s) => !s.endedAt).first() }));
 
-export const useSession = (id: string | undefined) =>
-  useLiveQuery(async () => ({ value: id ? await db.sessions.get(id) : undefined }), [id]);
+export const useSession = (id: string | undefined): Loaded<Session | undefined> =>
+  useById(id, (key) => db.sessions.get(key));
 
 export const usePauses = (sessionId: string | undefined) =>
-  useLiveQuery(
-    () => (sessionId ? db.pauses.where('sessionId').equals(sessionId).toArray() : []),
-    [sessionId],
-  );
+  useById(sessionId, (key) => db.pauses.where('sessionId').equals(key).toArray())?.value;
 
 /** Sessions, pauses et bilans d'un projet (journal E3). */
 export const useProjectHistory = (projectId: string | undefined) =>
-  useLiveQuery(async () => {
-    if (!projectId) return { sessions: [], pauses: [], reviews: [] };
-    const sessions = await db.sessions.where('projectId').equals(projectId).toArray();
+  useById(projectId, async (key) => {
+    const sessions = await db.sessions.where('projectId').equals(key).toArray();
     const ids = sessions.map((s) => s.id);
     const [pauses, reviews] = await Promise.all([
       db.pauses.where('sessionId').anyOf(ids).toArray(),
       db.reviews.bulkGet(ids),
     ]);
     return { sessions, pauses, reviews: reviews.filter((r) => r !== undefined) };
-  }, [projectId]);
+  })?.value;
 
 /** Toutes les sessions et pauses (dernière activité des cartes E1). */
 export const useAllHistory = () =>
@@ -45,11 +48,8 @@ export const useAllHistory = () =>
   });
 
 export const useCounterReminders = (projectId: string | undefined) =>
-  useLiveQuery(
-    () =>
-      projectId ? db.counterReminders.where('projectId').equals(projectId).sortBy('atRow') : [],
-    [projectId],
-  );
+  useById(projectId, (key) => db.counterReminders.where('projectId').equals(key).sortBy('atRow'))
+    ?.value;
 
 const DEFAULTS: Partial<SettingsMap> = {
   remindersEnabled: true,
