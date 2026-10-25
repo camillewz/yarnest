@@ -22,7 +22,7 @@ test('CA1.1 : nom obligatoire, projet créé « À faire », compteurs à 0, en 
   await create.click();
 
   await expect(page.getByRole('heading', { level: 1, name: 'Bonnet côtelé' })).toBeVisible();
-  await expect(page.getByLabel('Statut')).toHaveValue('todo');
+  await expect(page.getByRole('combobox', { name: 'Statut', exact: true })).toHaveValue('todo');
   await expect(page.getByText('Note : mérinos, aig. 4 mm')).toBeVisible();
   await expect(page.locator('output').first()).toHaveText('0');
 
@@ -41,7 +41,7 @@ test('CA1.2 : tri par dernière activité, filtre par statut', async ({ page }) 
   await expect(page.getByRole('listitem')).toHaveText([/Charlie/, /Bravo/, /Alpha/]);
 
   await page.getByRole('link', { name: /Alpha/ }).click();
-  await page.getByLabel('Statut').selectOption('active');
+  await page.getByRole('combobox', { name: 'Statut', exact: true }).selectOption('active');
   await page.getByRole('link', { name: 'Retour' }).click();
   await expect(page.getByRole('listitem')).toHaveText([/Alpha/, /Charlie/, /Bravo/]);
 
@@ -57,9 +57,12 @@ test('CA1.4 : changement de statut enregistré sans bouton, conservé après rec
   page,
 }) => {
   await createProject(page, 'Écharpe');
-  await page.getByLabel('Statut').selectOption('paused');
+  await page.getByRole('combobox', { name: 'Statut', exact: true }).selectOption('paused');
+  await expect
+    .poll(async () => (await dbAll<{ status: string }>(page, 'projects'))[0]?.status)
+    .toBe('paused');
   await page.reload();
-  await expect(page.getByLabel('Statut')).toHaveValue('paused');
+  await expect(page.getByRole('combobox', { name: 'Statut', exact: true })).toHaveValue('paused');
 });
 
 test('E2 : modification d’un projet', async ({ page }) => {
@@ -72,7 +75,7 @@ test('E2 : modification d’un projet', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(`/projects/${id}$`));
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mitaines torsadées');
   await expect(page.getByText('Crochet')).toBeVisible();
-  await expect(page.getByLabel('Statut')).toHaveValue('done');
+  await expect(page.getByRole('combobox', { name: 'Statut', exact: true })).toHaveValue('done');
 });
 
 test('CA1.5 : suppression confirmée → tout disparaît d’IndexedDB', async ({ page }) => {

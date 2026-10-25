@@ -24,7 +24,7 @@ test('CA2.1 : démarrer crée la session et passe le projet « En cours »', asy
   const [session] = await dbAll<{ startedAt: string; rowsAtStart: number }>(page, 'sessions');
   expect(session).toMatchObject({ startedAt: T0.toISOString(), rowsAtStart: 0 });
   await page.goto(`/projects/${id}`);
-  await expect(page.getByLabel('Statut')).toHaveValue('active');
+  await expect(page.getByRole('combobox', { name: 'Statut', exact: true })).toHaveValue('active');
   await expect(page.getByRole('button', { name: 'Reprendre la session' })).toBeVisible();
 });
 
@@ -43,7 +43,9 @@ test('CA2.2 : une session active sur A bloque B tant que A n’est pas terminée
 
   await page.getByRole('button', { name: 'Démarrer une session' }).click();
   await page.getByRole('button', { name: 'Terminer et démarrer' }).click();
+  await expect(page).toHaveURL(/\/session$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('B');
+  await expect(rowCount(page)).toBeVisible();
   const sessions = await dbAll<{ endedAt?: string }>(page, 'sessions');
   expect(sessions.filter((s) => !s.endedAt)).toHaveLength(1);
 });
