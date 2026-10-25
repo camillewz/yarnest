@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { MIN, T0, fixedClock, launchPause, startSession } from './helpers';
 
 let clock: Awaited<ReturnType<typeof fixedClock>>;

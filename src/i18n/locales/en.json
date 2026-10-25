@@ -30,13 +30,27 @@
     "yesterday": "yesterday"
   },
   "screens": {
-    "projects": { "title": "My projects" },
-    "projectNew": { "title": "New project" },
-    "projectEdit": { "title": "Edit project" },
-    "project": { "title": "Project" },
-    "session": { "title": "Current session" },
-    "review": { "title": "Session review" },
-    "settings": { "title": "Settings" }
+    "projects": {
+      "title": "My projects"
+    },
+    "projectNew": {
+      "title": "New project"
+    },
+    "projectEdit": {
+      "title": "Edit project"
+    },
+    "project": {
+      "title": "Project"
+    },
+    "session": {
+      "title": "Current session"
+    },
+    "review": {
+      "title": "Session review"
+    },
+    "settings": {
+      "title": "Settings"
+    }
   },
   "projects": {
     "filterLabel": "Filter by status",
@@ -75,13 +89,12 @@
     "note": "Note: {{note}}",
     "rows": "Rows",
     "stitches": "Stitches",
-    "incrementRow": "Add a row",
+    "incrementRow": "+1 row",
     "decrementRow": "Remove a row",
-    "incrementStitch": "Add a stitch",
+    "incrementStitch": "+1 stitch",
     "decrementStitch": "Remove a stitch",
-    "reset": "Reset",
-    "resetRows": "Reset rows to zero",
-    "resetStitches": "Reset stitches to zero",
+    "resetRows": "Reset rows",
+    "resetStitches": "Reset stitches",
     "resetRowsTitle": "Reset rows to zero?",
     "resetStitchesTitle": "Reset stitches to zero?",
     "resetConfirm": "Reset",
@@ -139,12 +152,14 @@
     "session": "Session",
     "progress": "Share of knitting in the session",
     "row": "Row",
-    "rowZone": "Add a row. Current row: {{count}}",
+    "rowZone": "Row {{count}} + 1: add a row",
     "plusOne": "+ 1",
     "correct": "correct",
     "stitches": "Stitches",
     "startPause": "Take a break",
-    "announce": "Knitting: {{duration}}"
+    "announce": "Knitting: {{duration}}",
+    "correctLabel": "correct: remove a row",
+    "rowZoneHint": "add a row"
   },
   "pause": {
     "sheetTitle": "Break length",
@@ -196,7 +211,10 @@
   },
   "settings": {
     "language": "Language",
-    "languages": { "fr": "Français", "en": "English" },
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    },
     "reminders": "Break reminders",
     "remindersHint": "At 30 min, 1 h and 2 h of knitting without a break.",
     "defaultPause": "Default break length",

@@ -90,3 +90,13 @@ export async function fixedClock(page: Page, start = T0) {
     },
   };
 }
+
+/** Coupe les rappels de pause (E7) pour les scénarios qui ne les testent pas. */
+export async function disableReminders(page: Page) {
+  await page.goto('/settings');
+  await page.getByRole('switch', { name: 'Rappels de pause' }).click();
+  await expect(page.getByRole('switch', { name: 'Rappels de pause' })).toHaveAttribute(
+    'aria-checked',
+    'false',
+  );
+}

@@ -30,13 +30,27 @@
     "yesterday": "hier"
   },
   "screens": {
-    "projects": { "title": "Mes projets" },
-    "projectNew": { "title": "Nouveau projet" },
-    "projectEdit": { "title": "Modifier le projet" },
-    "project": { "title": "Fiche projet" },
-    "session": { "title": "Session en cours" },
-    "review": { "title": "Bilan de session" },
-    "settings": { "title": "Réglages" }
+    "projects": {
+      "title": "Mes projets"
+    },
+    "projectNew": {
+      "title": "Nouveau projet"
+    },
+    "projectEdit": {
+      "title": "Modifier le projet"
+    },
+    "project": {
+      "title": "Fiche projet"
+    },
+    "session": {
+      "title": "Session en cours"
+    },
+    "review": {
+      "title": "Bilan de session"
+    },
+    "settings": {
+      "title": "Réglages"
+    }
   },
   "projects": {
     "filterLabel": "Filtrer par statut",
@@ -75,13 +89,12 @@
     "note": "Note : {{note}}",
     "rows": "Rangs",
     "stitches": "Mailles",
-    "incrementRow": "Ajouter un rang",
+    "incrementRow": "+1 rang",
     "decrementRow": "Retirer un rang",
-    "incrementStitch": "Ajouter une maille",
+    "incrementStitch": "+1 maille",
     "decrementStitch": "Retirer une maille",
-    "reset": "Ràz",
-    "resetRows": "Remettre les rangs à zéro",
-    "resetStitches": "Remettre les mailles à zéro",
+    "resetRows": "Ràz des rangs",
+    "resetStitches": "Ràz des mailles",
     "resetRowsTitle": "Remettre les rangs à zéro ?",
     "resetStitchesTitle": "Remettre les mailles à zéro ?",
     "resetConfirm": "Remettre à zéro",
@@ -139,12 +152,14 @@
     "session": "Session",
     "progress": "Part du tricot dans la session",
     "row": "Rang",
-    "rowZone": "Ajouter un rang. Rang actuel : {{count}}",
+    "rowZone": "Rang {{count}} + 1 : ajouter un rang",
     "plusOne": "+ 1",
     "correct": "corriger",
     "stitches": "Mailles",
     "startPause": "Faire une pause",
-    "announce": "Tricot : {{duration}}"
+    "announce": "Tricot : {{duration}}",
+    "correctLabel": "corriger : retirer un rang",
+    "rowZoneHint": "ajouter un rang"
   },
   "pause": {
     "sheetTitle": "Durée de la pause",
@@ -196,7 +211,10 @@
   },
   "settings": {
     "language": "Langue",
-    "languages": { "fr": "Français", "en": "English" },
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    },
     "reminders": "Rappels de pause",
     "remindersHint": "À 30 min, 1 h et 2 h de tricot sans pause.",
     "defaultPause": "Durée de pause par défaut",

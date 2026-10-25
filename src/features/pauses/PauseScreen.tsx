@@ -77,13 +77,8 @@ export function PauseScreen({
             {t('pause.stop')}
           </Button>
         )}
-        <Button
-          variant="ghost"
-          block
-          onClick={onIncrementRow}
-          aria-label={t('session.rowZone', { count: rowCount })}
-        >
-          {t('projects.row', { count: rowCount })} · +1
+        <Button variant="ghost" block onClick={onIncrementRow}>
+          {t('session.rowZone', { count: rowCount })}
         </Button>
       </div>
     </FullScreen>

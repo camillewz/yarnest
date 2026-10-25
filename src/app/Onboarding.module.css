@@ -1,0 +1,38 @@
+.shape {
+  width: calc(var(--tap-primary) * 2);
+  height: calc(var(--tap-primary) * 2);
+  color: var(--primary);
+}
+
+.title {
+  font: var(--text-h1);
+}
+
+.text {
+  max-width: 24rem;
+  color: var(--ink-muted);
+}
+
+.dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--line);
+}
+
+.current {
+  background: var(--primary);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 24rem;
+}

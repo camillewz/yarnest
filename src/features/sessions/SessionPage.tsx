@@ -153,34 +153,24 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
         >
           <Minus aria-hidden="true" />
         </Button>
-        <Button
-          className={styles.round}
-          aria-label={t('project.incrementStitch')}
-          onClick={() => counter('incrementStitch')}
-        >
-          +1
+        <Button className={styles.round} onClick={() => counter('incrementStitch')}>
+          {t('project.incrementStitch')}
         </Button>
       </Card>
 
-      <button
-        type="button"
-        className={styles.rowZone}
-        aria-label={t('session.rowZone', { count: project.rowCount })}
-        onClick={incrementRow}
-      >
+      <button type="button" className={styles.rowZone} onClick={incrementRow}>
         <span className={styles.rowLabel}>{t('session.row')}</span>
         <span className="counter" data-testid="row-count">
           {project.rowCount}
         </span>
-        <span className={styles.plusOne} aria-hidden="true">
-          {t('session.plusOne')}
-        </span>
+        <span className={styles.plusOne}>{t('session.plusOne')}</span>
+        <span className={styles.liveRegion}>{t('session.rowZoneHint')}</span>
       </button>
 
       <Button
         variant="ghost"
         className={styles.correct}
-        aria-label={t('project.decrementRow')}
+        aria-label={t('session.correctLabel')}
         onClick={() => counter('decrementRow')}
       >
         <Minus aria-hidden="true" /> {t('session.correct')}

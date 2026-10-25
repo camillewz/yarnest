@@ -1,5 +1,15 @@
-import { expect, test, type Page } from '@playwright/test';
-import { HOUR_MS, MIN, T0, dbAll, fixedClock, launchPause, startSession } from './helpers';
+import type { Page } from '@playwright/test';
+import { expect, test } from './fixtures';
+import {
+  HOUR_MS,
+  MIN,
+  T0,
+  dbAll,
+  disableReminders,
+  fixedClock,
+  launchPause,
+  startSession,
+} from './helpers';
 
 let clock: Awaited<ReturnType<typeof fixedClock>>;
 test.beforeEach(async ({ page }) => {
@@ -13,7 +23,7 @@ async function finish(page: Page) {
 }
 
 const addRows = async (page: Page, n: number) => {
-  for (let i = 0; i < n; i++) await page.getByRole('button', { name: /Ajouter un rang/ }).click();
+  for (let i = 0; i < n; i++) await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).click();
 };
 
 test('CA5.1 et CA2.8 : bilan affiché, « Passer » → session au journal sans bilan', async ({
@@ -77,7 +87,7 @@ test('CA2.6 : dernière action à T, ouverture à T + 12 h 01 → clôture auto,
 }) => {
   await startSession(page);
   await clock.advance(30 * MIN);
-  await page.getByRole('button', { name: /Ajouter un rang/ }).click();
+  await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).click();
   await expect(page.getByTestId('row-count')).toHaveText('1');
   const lastAction = T0.getTime() + 30 * MIN;
   await clock.advance(12 * HOUR_MS + MIN);
@@ -107,6 +117,7 @@ async function sessionOf(page: Page, minutes: number) {
 }
 
 test('CA6.1 à CA6.3 : journal trié, correction et suppression', async ({ page }) => {
+  await disableReminders(page);
   await startSession(page, 'Plaid');
   await clock.advance(30 * MIN);
   await finish(page);

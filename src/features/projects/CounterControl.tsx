@@ -45,21 +45,12 @@ function CounterControl({ project, kind }: { project: Project; kind: Kind }) {
         >
           <Minus aria-hidden="true" />
         </Button>
-        <Button
-          className={styles.round}
-          aria-label={t(`project.increment${kind}`)}
-          onClick={() => run(`increment${kind}`)}
-        >
-          +1
+        <Button className={styles.round} onClick={() => run(`increment${kind}`)}>
+          {t(`project.increment${kind}`)}
         </Button>
       </div>
-      <Button
-        variant="ghost"
-        className={styles.reset}
-        aria-label={t(`project.reset${plural}`)}
-        onClick={() => setConfirmReset(true)}
-      >
-        {t('project.reset')}
+      <Button variant="ghost" className={styles.reset} onClick={() => setConfirmReset(true)}>
+        {t(`project.reset${plural}`)}
       </Button>
       {confirmReset && (
         <ConfirmDialog

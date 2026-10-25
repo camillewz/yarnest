@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import {
   MIN,
   fixedClock,
@@ -68,7 +68,7 @@ test('CA2.3 et CA3.2 : 10 min dont 3 de pause → 07:00, 03:00, 10:00 ; tricot f
 
 test('CA2.4 : rechargement 60 min plus tard → temps exacts, rang identique', async ({ page }) => {
   await startSession(page);
-  for (let i = 0; i < 3; i++) await page.getByRole('button', { name: /Ajouter un rang/ }).click();
+  for (let i = 0; i < 3; i++) await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).click();
   await expect(rowCount(page)).toHaveText('3');
   await clock.advance(60 * MIN);
   await page.reload();
@@ -96,7 +96,7 @@ test('CA2.7 : navigateur sans Wake Lock → aucune erreur, session utilisable', 
     delete (Navigator.prototype as unknown as Record<string, unknown>).wakeLock;
   });
   await startSession(page);
-  await page.getByRole('button', { name: /Ajouter un rang/ }).click();
+  await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).click();
   await expect(rowCount(page)).toHaveText('1');
   expect(errors).toEqual([]);
 });
@@ -151,20 +151,19 @@ test('CA3.4 : pause de 5 min, retour après 8 min → terminée il y a 3 min, 8 
 
 test('CA4.1 et CA4.5 : +1 rang remet les mailles à 0 ; 20 taps rapides → +20', async ({ page }) => {
   await startSession(page);
-  for (let i = 0; i < 4; i++)
-    await page.getByRole('button', { name: 'Ajouter une maille' }).click();
+  for (let i = 0; i < 4; i++) await page.getByRole('button', { name: '+1 maille' }).click();
   await expect(page.getByRole('main').locator('output')).toHaveText('4');
-  const zone = page.getByRole('button', { name: /Ajouter un rang/ });
+  const zone = page.getByRole('button', { name: /Rang \d+ \+ 1/ });
   for (let i = 0; i < 20; i++) await zone.click({ delay: 0, noWaitAfter: true });
   await expect(rowCount(page)).toHaveText('20');
   await expect(page.getByRole('main').locator('output')).toHaveText('0');
-  await page.getByRole('button', { name: 'Retirer un rang' }).click();
+  await page.getByRole('button', { name: /retirer un rang/ }).click();
   await expect(rowCount(page)).toHaveText('19');
 });
 
 test('E4 : la zone +1 rang occupe au moins un tiers de la hauteur', async ({ page }) => {
   await startSession(page);
-  const box = await page.getByRole('button', { name: /Ajouter un rang/ }).boundingBox();
+  const box = await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).boundingBox();
   const height = page.viewportSize()!.height;
   expect(box!.height).toBeGreaterThanOrEqual(height / 3 - 1);
 });
@@ -172,7 +171,7 @@ test('E4 : la zone +1 rang occupe au moins un tiers de la hauteur', async ({ pag
 test('CA4.4 : compteurs modifiés hors session repris à la session suivante', async ({ page }) => {
   const { createProject } = await import('./helpers');
   await createProject(page, 'Plaid');
-  for (let i = 0; i < 5; i++) await page.getByRole('button', { name: 'Ajouter un rang' }).click();
+  for (let i = 0; i < 5; i++) await page.getByRole('button', { name: '+1 rang' }).click();
   await expect(page.locator('output').first()).toHaveText('5');
   await page.getByRole('button', { name: 'Démarrer une session' }).click();
   await expect(rowCount(page)).toHaveText('5');

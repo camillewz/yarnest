@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { createProject, dbAll, dbCounts } from './helpers';
 
 test('CA1.3 : aucun projet → état vide et bouton de création', async ({ page }) => {
@@ -104,14 +104,14 @@ test('CA1.5 : suppression confirmée → tout disparaît d’IndexedDB', async (
 test('compteurs de la fiche, remise à zéro confirmée (CA4.3, CA4.4)', async ({ page }) => {
   await createProject(page, 'Plaid');
   const rows = page.getByRole('status').or(page.locator('output')).first();
-  await page.getByRole('button', { name: 'Ajouter un rang' }).click();
-  await page.getByRole('button', { name: 'Ajouter un rang' }).click();
-  await page.getByRole('button', { name: 'Ajouter une maille' }).click();
+  await page.getByRole('button', { name: '+1 rang' }).click();
+  await page.getByRole('button', { name: '+1 rang' }).click();
+  await page.getByRole('button', { name: '+1 maille' }).click();
   await expect(rows).toHaveText('2');
-  await page.getByRole('button', { name: 'Remettre les rangs à zéro' }).click();
+  await page.getByRole('button', { name: 'Ràz des rangs' }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Annuler' }).click();
   await expect(rows).toHaveText('2');
-  await page.getByRole('button', { name: 'Remettre les rangs à zéro' }).click();
+  await page.getByRole('button', { name: 'Ràz des rangs' }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Remettre à zéro' }).click();
   await expect(rows).toHaveText('0');
   await page.reload();

@@ -5,7 +5,9 @@ import { useSetting } from '../db/hooks';
 import { getSetting, runAutoClose, setSetting } from '../db/repo';
 import { useClockTicker } from './clock';
 import { safely } from './toast';
+import { Onboarding } from './Onboarding';
 import { Toast } from './Toast';
+import { UpdatePrompt } from './UpdatePrompt';
 
 const AUTO_CLOSE_CHECK_MS = 60_000;
 
@@ -13,6 +15,7 @@ const AUTO_CLOSE_CHECK_MS = 60_000;
 export function AppShell() {
   const { i18n } = useTranslation();
   const locale = useSetting('locale');
+  const onboarded = useSetting('onboardingDone');
   useClockTicker();
 
   useEffect(() => {
@@ -39,7 +42,9 @@ export function AppShell() {
   return (
     <>
       <Outlet />
+      {onboarded && !onboarded.value && <Onboarding />}
       <Toast />
+      <UpdatePrompt />
     </>
   );
 }
