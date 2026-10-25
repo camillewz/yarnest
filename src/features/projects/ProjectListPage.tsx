@@ -1,3 +1,4 @@
+import { Settings } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../ui/IconLink';
 import { Page } from '../../ui/Page';
@@ -8,7 +9,7 @@ export function ProjectListPage() {
   return (
     <Page
       title={t('screens.projects.title')}
-      actions={<IconLink to="/settings" label={t('app.settings')} icon="⚙" />}
+      actions={<IconLink to="/settings" label={t('app.settings')} icon={Settings} />}
     />
   );
 }

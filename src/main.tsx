@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
 import { initI18n } from './i18n';
 import './styles/reset.css';
+import './styles/fonts.css';
 import './styles/tokens.css';
 
 initI18n();

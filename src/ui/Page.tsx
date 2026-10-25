@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { IconLink } from './IconLink';
 import styles from './Page.module.css';
 
 interface PageProps {
@@ -15,11 +16,7 @@ export function Page({ title, backTo, actions, children }: PageProps) {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        {backTo && (
-          <Link to={backTo} className={styles.iconLink} aria-label={t('app.back')}>
-            <span aria-hidden="true">←</span>
-          </Link>
-        )}
+        {backTo && <IconLink to={backTo} label={t('app.back')} icon={ArrowLeft} />}
         <h1 className={styles.title}>{title}</h1>
         {actions}
       </header>
