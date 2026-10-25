@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Yarnest",
+    "back": "Retour",
+    "settings": "Réglages"
+  },
+  "screens": {
+    "projects": { "title": "Mes projets" },
+    "projectNew": { "title": "Nouveau projet" },
+    "projectEdit": { "title": "Modifier le projet" },
+    "project": { "title": "Fiche projet" },
+    "session": { "title": "Session en cours" },
+    "review": { "title": "Bilan de session" },
+    "settings": { "title": "Réglages" }
+  }
+}

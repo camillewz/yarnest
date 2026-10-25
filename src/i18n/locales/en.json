@@ -1,0 +1,16 @@
+{
+  "app": {
+    "name": "Yarnest",
+    "back": "Back",
+    "settings": "Settings"
+  },
+  "screens": {
+    "projects": { "title": "My projects" },
+    "projectNew": { "title": "New project" },
+    "projectEdit": { "title": "Edit project" },
+    "project": { "title": "Project" },
+    "session": { "title": "Current session" },
+    "review": { "title": "Session review" },
+    "settings": { "title": "Settings" }
+  }
+}
