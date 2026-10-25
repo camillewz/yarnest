@@ -30,7 +30,8 @@ npm run preview -- --host   # puis ouvrir http://<IP-de-l-ordinateur>:4173 sur l
 - le scénario de référence de la section 10 ;
 - axe-core (WCAG 2.2 AA) sur les 7 écrans, la pause, les 3 rappels et l'onboarding ;
 - mise en page sans défilement horizontal à 360, 390 et 430 px ;
-- fonctionnement hors ligne après la première visite.
+- fonctionnement hors ligne après la première visite (Chromium seulement : Playwright
+  n'émule pas le hors ligne du service worker sous WebKit).
 
 Lighthouse mobile (mesuré en local) : performance 95, accessibilité 100, bonnes pratiques 100.
 
@@ -47,7 +48,8 @@ Lighthouse mobile (mesuré en local) : performance 95, accessibilité 100, bonne
       rechargement ; « Continuer » et « Ne plus » sur R3.
 - [ ] Téléphone redémarré au milieu d'une session : temps et rangs exacts à la réouverture.
 - [ ] Installation sur l'écran d'accueil (Chrome : bouton dans Réglages ; iOS : Partager >
-      Sur l'écran d'accueil), puis usage en mode avion.
+      Sur l'écran d'accueil), puis usage en mode avion — **à vérifier en priorité sur iPhone**,
+      non couvert automatiquement.
 - [ ] Session laissée ouverte plus de 12 h : clôture à l'heure de la dernière action et
       carte « Faire le bilan » sur l'accueil.
 - [ ] Export d'une sauvegarde puis import sur un autre navigateur.
