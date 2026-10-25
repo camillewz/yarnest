@@ -1,0 +1,16 @@
+.card {
+  display: block;
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: start;
+  text-decoration: none;
+}
+
+a.card,
+button.card {
+  min-height: var(--tap-min);
+}

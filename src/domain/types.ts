@@ -25,6 +25,7 @@ export interface Session {
   endReason?: 'manual' | 'auto12h';
   lastActivityAt: string; // mis à jour par chaque action, même transaction
   rowsAtStart: number;
+  rowsAtEnd?: number; // rowCount figé à la fin de la session (RG12)
   remindersMode: 'on' | 'every30' | 'off';
   reminderStage: 0 | 1 | 2 | 3; // dernier palier affiché depuis la dernière pause
   lastReminderAt?: string;
@@ -56,3 +57,5 @@ export interface CounterReminder {
   label?: string;
   doneAt?: string;
 }
+
+export type Locale = 'fr' | 'en';

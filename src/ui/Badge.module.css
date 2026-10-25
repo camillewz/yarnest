@@ -1,0 +1,15 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font: var(--text-label);
+  background: var(--primary-soft);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.active {
+  background: var(--accent-soft);
+  color: var(--ink);
+}

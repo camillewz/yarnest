@@ -2,7 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
-import { resolveLocale, type Locale } from './locale';
+import { resolveLocale } from './locale';
+import type { Locale } from '../domain/types';
 
 export const resources = {
   fr: { translation: fr },

@@ -1,0 +1,22 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.statusSelect {
+  width: auto;
+  min-width: 10rem;
+}
+
+.note {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.technique {
+  color: var(--ink-muted);
+}

@@ -1,7 +1,10 @@
 .page {
   display: flex;
   flex-direction: column;
+  gap: var(--space-6);
   min-height: 100dvh;
+  max-width: 40rem;
+  margin: 0 auto;
   padding: calc(var(--space-4) + env(safe-area-inset-top, 0px))
     calc(var(--space-4) + env(safe-area-inset-right, 0px))
     calc(var(--space-4) + env(safe-area-inset-bottom, 0px))
@@ -13,11 +16,11 @@
   align-items: center;
   gap: var(--space-2);
   min-height: var(--tap-min);
-  margin-bottom: var(--space-6);
 }
 
 .title {
   flex: 1;
+  min-width: 0;
   overflow-wrap: anywhere;
 }
 
@@ -25,8 +28,42 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   min-width: var(--tap-min);
   min-height: var(--tap-min);
   border-radius: var(--radius-md);
   color: var(--ink);
+}
+
+/* Zone d'actions collée en bas, à portée de pouce. */
+.bottom {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  padding: var(--space-4) 0 env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(to bottom, transparent, var(--paper) var(--space-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.muted {
+  color: var(--ink-muted);
+  font: var(--text-small);
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex: 1;
+  text-align: center;
 }

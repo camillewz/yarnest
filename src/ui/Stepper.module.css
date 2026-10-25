@@ -1,0 +1,16 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.value {
+  min-width: 5ch;
+  text-align: center;
+  font: var(--text-h2);
+}
+
+.round {
+  border-radius: var(--radius-pill);
+}

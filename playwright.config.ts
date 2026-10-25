@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const widths = [360, 390, 430] as const;
+
 const engines = [
   { name: 'chromium', device: devices['Pixel 7'] },
   { name: 'webkit', device: devices['iPhone 14'] },
@@ -19,12 +20,14 @@ export default defineConfig({
     baseURL: 'http://localhost:4173',
     trace: 'retain-on-failure',
   },
+  // Scénarios fonctionnels à 390 px ; contrôles de mise en page aux trois largeurs (section 8).
   projects: engines
     .filter((e) => !only || only.includes(e.name))
     .flatMap((e) =>
       widths.map((width) => ({
         name: `${e.name}-${width}`,
-        use: { ...e.device, viewport: { width, height: 800 } },
+        use: { ...e.device, locale: 'fr-FR', viewport: { width, height: 800 } },
+        ...(width === 390 ? {} : { testMatch: /layout\.spec\.ts/ }),
       })),
     ),
   webServer: {

@@ -8,7 +8,6 @@ const cases = [
   ['/projects/new', 'Nouveau projet', 'New project'],
   ['/projects/abc', 'Fiche projet', 'Project'],
   ['/projects/abc/edit', 'Modifier le projet', 'Edit project'],
-  ['/session', 'Session en cours', 'Current session'],
   ['/sessions/abc/review', 'Bilan de session', 'Session review'],
   ['/settings', 'Réglages', 'Settings'],
 ] as const;

@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { CounterReminder, Pause, Project, Review, Session } from '../domain/types';
+import type { CounterReminder, Locale, Pause, Project, Review, Session } from '../domain/types';
 
 export type {
   BodyZone,
@@ -12,8 +12,19 @@ export type {
   Technique,
 } from '../domain/types';
 
-export type SettingKey =
-  'locale' | 'remindersEnabled' | 'storagePersisted' | 'onboardingDone' | 'schemaVersion';
+/** Réglages typés. Clés de la section 4, plus deux ajouts : defaultPauseMinutes (E7) et
+ * pendingReviewSessionId (carte « Faire le bilan » après une clôture automatique, E1). */
+export interface SettingsMap {
+  locale: Locale;
+  remindersEnabled: boolean;
+  storagePersisted: boolean;
+  onboardingDone: boolean;
+  schemaVersion: number;
+  defaultPauseMinutes: number;
+  pendingReviewSessionId: string;
+}
+
+export type SettingKey = keyof SettingsMap;
 
 export interface Setting {
   key: SettingKey;
