@@ -20,6 +20,11 @@ export default tseslint.config(
     rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
   },
   {
+    // Fixtures Playwright : leur paramètre `use` n'est pas un hook React.
+    files: ['tests/**/*.ts'],
+    rules: { 'react-hooks/rules-of-hooks': 'off' },
+  },
+  {
     // Le domaine reste pur : ni React, ni Dexie, ni couche données (CLAUDE.md).
     files: ['src/domain/**/*.ts'],
     rules: {

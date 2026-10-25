@@ -13,6 +13,7 @@ import { IconLink } from '../../ui/IconLink';
 import { ConfirmDialog } from '../../ui/Overlay';
 import { Page, PageMessage, pageStyles } from '../../ui/Page';
 import { cx } from '../../ui/cx';
+import { CounterRemindersSection, DueCounterReminders } from '../counterReminders/CounterReminders';
 import { CounterControls } from './CounterControl';
 import { Journal } from './Journal';
 import { STATUSES } from './ProjectFormPage';
@@ -98,7 +99,11 @@ function ProjectDetail({ project }: { project: Project }) {
 
       {project.note && <p className={styles.note}>{t('project.note', { note: project.note })}</p>}
 
+      <DueCounterReminders project={project} />
+
       <CounterControls project={project} />
+
+      <CounterRemindersSection project={project} />
 
       <Journal projectId={project.id} />
 
