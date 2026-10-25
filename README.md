@@ -3,7 +3,8 @@
 Web-app to track knitting and encourage breaks.
 
 PWA mobile-first, sans compte ni serveur : toutes les données vivent dans IndexedDB.
-Spécification : [docs/SPEC.md](docs/SPEC.md) · consignes de développement : [CLAUDE.md](CLAUDE.md).
+Spécification : [docs/SPEC.md](docs/SPEC.md) · consignes de développement : [CLAUDE.md](CLAUDE.md) ·
+recette de la V1 : [docs/RECETTE.md](docs/RECETTE.md).
 
 ## Démarrer
 
@@ -14,8 +15,10 @@ npm install
 npm run dev        # serveur de développement
 npm test           # tests unitaires (Vitest)
 npm run test:e2e   # tests bout en bout (Playwright, Chromium + WebKit, 360/390/430 px)
-npm run lint       # ESLint + Prettier
+npm run lint       # ESLint, Prettier, parité des clés i18n
 npm run build      # build de production
 ```
 
 Si seul Chromium est installé : `PW_PROJECTS=chromium npm run test:e2e`.
+
+Icônes PWA : `npm run icons` les régénère depuis `public/icon.svg`.
