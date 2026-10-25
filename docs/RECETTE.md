@@ -7,11 +7,10 @@ vérifier à la main (ce que les tests automatiques ne couvrent pas) et les arbi
 
 Le service worker, le Wake Lock et l'installation PWA exigent HTTPS (ou `localhost`).
 
-**Option recommandée : un hébergement de recette** (point ouvert « Hébergement », section 11).
-`npm run build` produit un dossier `dist/` statique ; le déposer sur Netlify Drop
-(app.netlify.com/drop) ou Cloudflare Pages donne une URL HTTPS en quelques minutes.
-Prévoir une réécriture de toutes les routes vers `index.html` (fichier `_redirects` :
-`/* /index.html 200`).
+**Hébergement OVH (mutualisé)** : `npm run build`, puis envoyer **le contenu** de `dist/`
+(y compris le fichier caché `.htaccess`) dans le dossier racine du site par FTP. Le
+`.htaccess` force HTTPS, renvoie toutes les routes vers `index.html` et règle le cache du
+service worker. Le certificat SSL doit être actif : le domaine `.app` n'accepte que HTTPS.
 
 **Option locale, sans HTTPS** (fonctions PWA, Wake Lock et hors ligne inactives) :
 
