@@ -7,6 +7,7 @@ const routes = [
   ['/projects/abc/edit', 'Modifier le projet', 'Edit project'],
   ['/sessions/abc/review', 'Bilan de session', 'Session review'],
   ['/settings', 'Réglages', 'Settings'],
+  ['/journal', 'Journal', 'Log'],
 ] as const;
 
 const locales = [

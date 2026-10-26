@@ -2,7 +2,15 @@ import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import { test as base } from '@playwright/test';
 import { expect, test } from './fixtures';
-import { MIN, T0, createProject, fixedClock, launchPause, startSession } from './helpers';
+import {
+  MIN,
+  T0,
+  createProject,
+  fixedClock,
+  launchPause,
+  projectItems,
+  startSession,
+} from './helpers';
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
@@ -18,7 +26,7 @@ test('E1 vide, E1 avec projets, E2, E3, E7', async ({ page }) => {
   const id = await createProject(page, 'Bonnet côtelé');
   await expectNoViolations(page);
   await page.goto('/');
-  await expect(page.getByRole('listitem')).toHaveCount(1);
+  await expect(projectItems(page)).toHaveCount(1);
   await expectNoViolations(page);
   await page.goto(`/projects/${id}/edit`);
   await expectNoViolations(page);
@@ -32,7 +40,7 @@ test('E4, feuille de pause, E5, fin de pause, E6, journal', async ({ page }) => 
   const clock = await fixedClock(page, T0);
   await startSession(page);
   await expectNoViolations(page);
-  await page.getByRole('button', { name: 'Faire une pause' }).click();
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
   await expectNoViolations(page);
   await page.getByRole('button', { name: 'Lancer' }).click();
   await expectNoViolations(page);

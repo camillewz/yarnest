@@ -1,0 +1,25 @@
+.stitch {
+  width: calc(var(--space-2) + var(--space-1));
+  height: calc(var(--space-3) + var(--space-1) / 2);
+  fill: currentColor;
+}
+
+.texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--surface);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.swatch {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: calc(var(--tap-min) + var(--space-4));
+  height: calc(var(--tap-min) + var(--space-4));
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}

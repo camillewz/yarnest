@@ -26,7 +26,7 @@ test('E7 : durée de pause par défaut reprise dans la feuille de pause', async 
   await page.getByRole('button', { name: '5 minutes de plus' }).click();
   await expect(page.locator('output')).toHaveText('15 min');
   await startSession(page);
-  await page.getByRole('button', { name: 'Faire une pause' }).click();
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
   await expect(page.getByRole('dialog').locator('output')).toHaveText('15 min');
 });
 

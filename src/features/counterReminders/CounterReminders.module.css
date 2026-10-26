@@ -1,17 +1,33 @@
 .list {
   display: flex;
   flex-direction: column;
+  gap: var(--space-2);
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line);
 }
 
+/* Rappel programmé : carte sauge, rang en puce blanche. */
 .item {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   min-height: var(--tap-min);
-  border-bottom: 1px solid var(--line);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.row {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: calc(var(--space-6) + var(--space-2));
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font: var(--text-label);
+  font-variant-numeric: tabular-nums;
 }
 
 .itemText {
@@ -20,24 +36,58 @@
   overflow-wrap: anywhere;
 }
 
-.done {
-  color: var(--ink-muted);
+.done .itemText {
   text-decoration: line-through;
 }
 
+.done {
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink-muted);
+}
+
+.delete {
+  color: inherit;
+}
+
+.add {
+  border: 2px dashed var(--stitch);
+  border-radius: var(--radius-lg);
+}
+
+/* Rappel atteint : rappel doux, coche sauge. */
 .due {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-md);
-  background: var(--accent-soft);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-float);
 }
 
 .dueIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  width: calc(var(--space-6) + var(--space-4));
+  height: calc(var(--space-6) + var(--space-4));
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
   color: var(--accent);
+}
+
+.dueTitle {
+  display: block;
+  font: var(--text-title);
+}
+
+.dueText {
+  display: block;
+  font: var(--text-small);
+  color: var(--ink-muted);
 }
 
 .form {

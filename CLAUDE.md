@@ -32,12 +32,16 @@ Spécification complète : docs/SPEC.md. La lire avant toute tâche.
 ### Règles d'usage
 
 - Fond `--paper`, cartes `--surface` bordées `--line`, texte `--ink`, secondaire `--ink-muted`.
+- Halo flou en haut d'écran (`Halo`, couleur de laine du projet sur la fiche) et verre dépoli (`--glass*`) pour les boutons ronds d'en-tête et les tuiles : sur un halo, texte en `--ink` uniquement (`--ink-muted` y passe sous 4.5:1).
+- Texture jersey (`KnitTexture`, `Stitch`) et coutures en pointillés `--line`/`--stitch` : décor seulement.
 - `--primary` (terracotta) : **une seule action principale par écran** (démarrer/pause minuteur, +1 rang). Texte blanc dessus.
-- `--accent` (sauge) : rappels de rangs, statut « en cours ». Fonds doux : `--primary-soft`, `--accent-soft`.
+- `--accent` (sauge) : rappels de rangs et de pause, statut « en cours ». Fonds doux : `--primary-soft`, `--accent-soft` ; texte dessus en `--primary-strong` / `--accent-ink`.
+- Laine des projets : `--yarn-*`, choisie depuis l'identifiant (`yarnSwatch`), sans champ stocké.
 - `--alert` : douleurs et suppressions uniquement, toujours doublé d'une icône ou d'un libellé (jamais la couleur seule).
-- Typo : `--font-display` (Fraunces) réservée au logo/landing ; `--text-h1`, `--text-h2`, `--text-label` (Figtree) ; `--text-body`, `--text-small` (Atkinson Hyperlegible Next) ; `.counter` pour minuteur et compteur de rangs (chiffres tabulaires).
-- Formes : `--radius-md` cartes et boutons, `--radius-pill` minuteur, compteur, badges, `--radius-sm` champs.
-- Espacements : `--space-1/2/4/6` uniquement ; marge latérale mobile `--space-4`.
+- Typo : Fraunces (`--font-display`) pour le logo et les titres d'écran (`--text-display`, `--text-h1`, `--text-h2`) ; Figtree pour l'interface et les chiffres (`--text-title`, `--text-stat`, `--text-label`, `.counter`, `--text-counter-xl`) ; `--text-body`, `--text-small` (Atkinson Hyperlegible Next).
+- Formes : `--radius-md` boutons, `--radius-lg` cartes et tuiles, `--radius-xl` zone +1 rang et feuilles, `--radius-pill` minuteur, compteur, badges, `--radius-sm` champs.
+- Espacements : `--space-1/2/3/4/5/6` uniquement ; marge latérale mobile `--space-4`.
+- Navigation flottante (`FloatingNav` : Projets · + · Journal) sur E1 et le journal global uniquement.
 
 ### Mains occupées (non négociable)
 

@@ -1,4 +1,4 @@
-import { Bell, Check, Plus, Trash2 } from 'lucide-react';
+import { Check, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { safely } from '../../app/toast';
@@ -26,6 +26,8 @@ function useLabel() {
     r.label ? `${t(`counterReminders.${r.kind}`)} — ${r.label}` : t(`counterReminders.${r.kind}`);
 }
 
+/** Rappel doux : rang atteint, avec « Fait ». */
+
 /** Bandeaux des rappels de rangs atteints (E4 et E3), avec « Fait ». */
 export function DueCounterReminders({ project }: { project: Project }) {
   const { t } = useTranslation();
@@ -37,15 +39,19 @@ export function DueCounterReminders({ project }: { project: Project }) {
     <div className={pageStyles.section} role="status">
       {due.map((r) => (
         <div key={r.id} className={styles.due}>
-          <Bell className={styles.dueIcon} aria-hidden="true" />
+          <span className={styles.dueIcon} aria-hidden="true">
+            <Check />
+          </span>
           <p className={styles.itemText}>
-            {t('counterReminders.due', { row: r.atRow, kind: label(r) })}
+            <span className={styles.dueTitle}>
+              {t('counterReminders.reached', { row: r.atRow })}
+            </span>{' '}
+            <span className={styles.dueText}>{label(r)}</span>
           </p>
           <Button
             variant="secondary"
             onClick={() => void safely(() => markCounterReminderDone(r.id, Date.now()))}
           >
-            <Check aria-hidden="true" />
             {t('counterReminders.done')}
           </Button>
         </div>
@@ -70,12 +76,12 @@ export function CounterRemindersSection({ project }: { project: Project }) {
       ) : (
         <ul className={styles.list}>
           {reminders.map((r) => (
-            <li key={r.id} className={styles.item}>
-              <span className={cx(styles.itemText, r.doneAt && styles.done)}>
-                {t('counterReminders.item', { row: r.atRow, kind: label(r) })}
-              </span>
+            <li key={r.id} className={cx(styles.item, r.doneAt && styles.done)}>
+              <span className={styles.row}>{t('counterReminders.row', { row: r.atRow })}</span>
+              <span className={styles.itemText}>{label(r)}</span>
               <Button
                 variant="ghost"
+                className={styles.delete}
                 aria-label={t('counterReminders.delete')}
                 onClick={() => void safely(() => deleteCounterReminder(r.id))}
               >
@@ -85,7 +91,7 @@ export function CounterRemindersSection({ project }: { project: Project }) {
           ))}
         </ul>
       )}
-      <Button variant="secondary" block onClick={() => setAdding(true)}>
+      <Button variant="ghost" block className={styles.add} onClick={() => setAdding(true)}>
         <Plus aria-hidden="true" />
         {t('counterReminders.add')}
       </Button>

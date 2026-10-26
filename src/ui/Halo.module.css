@@ -1,0 +1,21 @@
+/* Halo flou en haut d'écran : décor seulement (aucun texte en --ink-muted posé dessus). */
+.halo {
+  position: absolute;
+  /* Sous le contenu, dans le contexte isolé de la page. */
+  z-index: -1;
+  inset: calc(var(--tap-primary) * -1.5) calc(var(--tap-primary) * -1) auto;
+  height: calc(var(--tap-primary) * 6);
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 28% 42%,
+      color-mix(in srgb, var(--halo-color, var(--apricot)) 60%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 32%,
+      color-mix(in srgb, var(--peach) 85%, transparent) 0%,
+      transparent 60%
+    );
+  filter: var(--halo-blur);
+}

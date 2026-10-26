@@ -1,3 +1,4 @@
+import { Coffee } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { safely } from '../../app/toast';
@@ -12,7 +13,7 @@ import {
 } from '../../domain/reminders';
 import type { Locale, Pause, Session } from '../../domain/types';
 import { Button } from '../../ui/Button';
-import { FullScreen, Sheet } from '../../ui/Overlay';
+import { FullScreen, Sheet, overlayStyles } from '../../ui/Overlay';
 import styles from './Reminders.module.css';
 
 const R1_VISIBLE_MS = 10_000;
@@ -70,8 +71,9 @@ export function Reminders({ session, pauses, now, onPause }: RemindersProps) {
   if (shown.stage === 1) {
     return (
       <div className={styles.banner} role="status">
+        <Coffee className={styles.bannerIcon} aria-hidden="true" />
         <p className={styles.bannerText}>{t('reminders.r1', { duration })}</p>
-        <Button variant="secondary" onClick={pause}>
+        <Button variant="sage" onClick={pause}>
           {t('reminders.r1Yes')}
         </Button>
       </div>
@@ -80,14 +82,22 @@ export function Reminders({ session, pauses, now, onPause }: RemindersProps) {
 
   if (shown.stage === 2) {
     return (
-      <Sheet title={t('reminders.r2Title', { duration })} onClose={close}>
-        <p className={styles.text}>{t('reminders.r2Text')}</p>
+      <Sheet
+        title={t('reminders.r2Title', { duration })}
+        description={t('reminders.r2Text')}
+        icon={
+          <span className={overlayStyles.blob} aria-hidden="true">
+            <Coffee />
+          </span>
+        }
+        onClose={close}
+      >
         <div className={styles.row}>
-          <Button variant="primary" onClick={pause}>
-            {t('reminders.takePause')}
-          </Button>
           <Button variant="secondary" onClick={close}>
             {t('reminders.later')}
+          </Button>
+          <Button variant="sage" onClick={pause}>
+            {t('reminders.takePause')}
           </Button>
         </div>
       </Sheet>
@@ -99,11 +109,14 @@ export function Reminders({ session, pauses, now, onPause }: RemindersProps) {
     void safely(() => chooseAfterR3(session.id, choice));
   };
   return (
-    <FullScreen label={t('reminders.r3Title', { duration })}>
+    <FullScreen label={t('reminders.r3Title', { duration })} halo="var(--sage-light)">
+      <span className={overlayStyles.blob} aria-hidden="true">
+        <Coffee />
+      </span>
       <h2 className={styles.title}>{t('reminders.r3Title', { duration })}</h2>
       <p className={styles.text}>{t('reminders.r3Text')}</p>
       <div className={styles.actions}>
-        <Button variant="primary" block large onClick={pause}>
+        <Button variant="sage" block large onClick={pause}>
           {t('reminders.takePause')}
         </Button>
         <Button variant="secondary" block onClick={() => choose('continue')}>
