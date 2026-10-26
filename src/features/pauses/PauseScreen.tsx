@@ -1,10 +1,12 @@
+import { Coffee } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatClock, formatDuration } from '../../domain/format';
 import { pauseCountdown } from '../../domain/pauses';
 import type { Locale, Pause } from '../../domain/types';
 import { Button } from '../../ui/Button';
-import { FullScreen } from '../../ui/Overlay';
+import { FullScreen, overlayStyles } from '../../ui/Overlay';
+import { Ring } from '../../ui/Ring';
 import { chime, vibrate } from './feedback';
 import styles from './PauseScreen.module.css';
 
@@ -40,11 +42,15 @@ export function PauseScreen({
   }, [countdown.finished]);
 
   const overrunMinutes = Math.floor(countdown.overrunMs / 60_000);
+  const plannedMs = pause.plannedMinutes * 60_000;
 
   return (
-    <FullScreen label={t('pause.title')}>
+    <FullScreen label={t('pause.title')} halo="var(--sage-light)">
       {countdown.finished ? (
         <>
+          <span className={overlayStyles.blob} aria-hidden="true">
+            <Coffee />
+          </span>
           <p className={styles.finished} role="alert">
             {t('pause.finishedTitle')}
           </p>
@@ -57,14 +63,12 @@ export function PauseScreen({
           )}
         </>
       ) : (
-        <>
-          <p className={styles.label}>{t('pause.title')}</p>
-          <div className={styles.timer}>
-            <span className="counter" role="timer" aria-label={t('pause.remaining')}>
-              {formatClock(countdown.remainingMs)}
-            </span>
-          </div>
-        </>
+        <Ring progress={1 - countdown.remainingMs / plannedMs} detailed className={styles.ring}>
+          <span className="eyebrow">{t('pause.title')}</span>
+          <span className="counter" role="timer" aria-label={t('pause.remaining')}>
+            {formatClock(countdown.remainingMs)}
+          </span>
+        </Ring>
       )}
       <p className={styles.muted}>{t('pause.frozen', { time: formatClock(knitMs) })}</p>
       <div className={styles.actions}>

@@ -2,7 +2,8 @@ import type { ButtonHTMLAttributes } from 'react';
 import { cx } from './cx';
 import styles from './Button.module.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonVariant =
+  'primary' | 'secondary' | 'dark' | 'sage' | 'glass' | 'ghost' | 'danger';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -33,5 +34,5 @@ export function Button({
   );
 }
 
-export const buttonClass = (variant: ButtonVariant = 'secondary', block = false) =>
-  cx(styles.button, styles[variant], block && styles.block);
+export const buttonClass = (variant: ButtonVariant = 'secondary', block = false, large = false) =>
+  cx(styles.button, styles[variant], block && styles.block, large && styles.large);

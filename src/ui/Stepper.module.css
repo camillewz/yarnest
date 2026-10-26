@@ -2,15 +2,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .value {
-  min-width: 5ch;
+  min-width: var(--tap-min);
   text-align: center;
-  font: var(--text-h2);
+  font: var(--text-stat);
+  font-variant-numeric: tabular-nums;
 }
 
 .round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0;
   border-radius: var(--radius-pill);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.round:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.minus {
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.plus {
+  border: 0;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
 }

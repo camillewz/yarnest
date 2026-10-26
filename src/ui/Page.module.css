@@ -1,14 +1,21 @@
 .page {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   min-height: 100dvh;
   max-width: 40rem;
   margin: 0 auto;
+  overflow-x: clip;
   padding: calc(var(--space-4) + env(safe-area-inset-top, 0px))
     calc(var(--space-4) + env(safe-area-inset-right, 0px))
     calc(var(--space-4) + env(safe-area-inset-bottom, 0px))
     calc(var(--space-4) + env(safe-area-inset-left, 0px));
+}
+
+.withNav {
+  padding-bottom: calc(var(--tap-primary) * 2 + env(safe-area-inset-bottom, 0px));
 }
 
 .header {
@@ -24,24 +31,54 @@
   overflow-wrap: anywhere;
 }
 
+.compactTitle {
+  font: var(--text-h2);
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-6);
+}
+
+.heroTitle {
+  flex: none;
+}
+
+/* Bouton rond en verre dépoli, posé sur le halo. */
 .iconLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: var(--tap-min);
-  min-height: var(--tap-min);
-  border-radius: var(--radius-md);
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: var(--ink);
 }
 
 /* Zone d'actions collée en bas, à portée de pouce. */
 .bottom {
   position: sticky;
+  z-index: 3;
   bottom: 0;
   margin-top: auto;
-  padding: var(--space-4) 0 env(safe-area-inset-bottom, 0px);
-  background: linear-gradient(to bottom, transparent, var(--paper) var(--space-4));
+  padding: var(--space-6) 0 env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(to bottom, transparent, var(--paper) var(--space-6));
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -50,7 +87,7 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .muted {

@@ -3,8 +3,9 @@
   width: 100%;
   padding: var(--space-4);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--shadow-card);
   color: var(--ink);
   text-align: start;
   text-decoration: none;

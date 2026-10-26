@@ -1,11 +1,18 @@
+/* R1 : encart discret, disparaît seul. */
 .banner {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--shadow-float);
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  color: var(--accent);
 }
 
 .bannerText {
@@ -14,6 +21,7 @@
 
 .title {
   font: var(--text-h1);
+  letter-spacing: var(--tracking-tight);
 }
 
 .text {
@@ -29,10 +37,11 @@
 }
 
 .row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-2);
 }
 
 .row > * {
-  flex: 1;
+  padding-inline: var(--space-2);
 }

@@ -1,5 +1,5 @@
 import { Minus, Plus } from 'lucide-react';
-import { Button } from './Button';
+import { cx } from './cx';
 import styles from './Stepper.module.css';
 
 interface StepperProps {
@@ -8,32 +8,51 @@ interface StepperProps {
   increaseLabel: string;
   onDecrease: () => void;
   onIncrease: () => void;
-  canDecrease: boolean;
-  canIncrease: boolean;
+  canDecrease?: boolean;
+  canIncrease?: boolean;
+  /** Libellé visible associé à la valeur (compteurs). */
+  labelledBy?: string;
+  testId?: string;
+  className?: string;
 }
 
-export function Stepper(props: StepperProps) {
+/** − valeur + en boutons ronds : compteurs de rangs et de mailles, durée de pause. */
+export function Stepper({
+  canDecrease = true,
+  canIncrease = true,
+  labelledBy,
+  testId,
+  className,
+  ...props
+}: StepperProps) {
   return (
-    <div className={styles.stepper}>
-      <Button
-        className={styles.round}
+    <div className={cx(styles.stepper, className)}>
+      <button
+        type="button"
+        className={cx(styles.round, styles.minus)}
         aria-label={props.decreaseLabel}
-        disabled={!props.canDecrease}
+        disabled={!canDecrease}
         onClick={props.onDecrease}
       >
         <Minus aria-hidden="true" />
-      </Button>
-      <output className={styles.value} aria-live="polite">
+      </button>
+      <output
+        className={styles.value}
+        aria-live="polite"
+        aria-labelledby={labelledBy}
+        data-testid={testId}
+      >
         {props.value}
       </output>
-      <Button
-        className={styles.round}
+      <button
+        type="button"
+        className={cx(styles.round, styles.plus)}
         aria-label={props.increaseLabel}
-        disabled={!props.canIncrease}
+        disabled={!canIncrease}
         onClick={props.onIncrease}
       >
         <Plus aria-hidden="true" />
-      </Button>
+      </button>
     </div>
   );
 }

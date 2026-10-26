@@ -1,37 +1,36 @@
 .counters {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-1) var(--space-4);
 }
 
 .counter {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-2);
-  padding: var(--space-4) var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+/* Couture en point avant entre les deux compteurs. */
+.counter + .counter {
+  border-top: 2px dashed var(--line);
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
 }
 
 .label {
-  font: var(--text-label);
-}
-
-.value {
-  font: var(--text-h1);
-  font-variant-numeric: tabular-nums;
-}
-
-.buttons {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.round {
-  border-radius: var(--radius-pill);
-  padding: 0;
+  font: var(--text-body);
 }
 
 .reset {
+  min-width: 0;
+  padding: 0;
   font: var(--text-small);
   color: var(--ink-muted);
   text-decoration: underline;

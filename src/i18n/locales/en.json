@@ -50,24 +50,27 @@
     },
     "settings": {
       "title": "Settings"
+    },
+    "journal": {
+      "title": "Log"
     }
   },
   "projects": {
     "filterLabel": "Filter by status",
     "all": "All",
     "new": "New project",
-    "emptyTitle": "No projects yet",
+    "emptyTitle": "Your nest is still empty",
     "emptyText": "Create your first project to track your rows and pace your breaks.",
     "createFirst": "Create my first project",
     "noneInFilter": "No projects with this status.",
     "row": "Row {{count}}",
     "noSession": "no sessions",
     "lastSession": "{{day}}, {{duration}}",
-    "activeBanner": "Session in progress · {{name}}",
-    "activeKnit": "Knitting {{time}}",
     "resume": "Resume",
     "pendingReviewTitle": "Review your session",
-    "pendingReviewText": "Your session on {{name}} closed after 12 hours without activity."
+    "pendingReviewText": "Your session on {{name}} closed after 12 hours without activity.",
+    "tab": "{{label}} · {{count}}",
+    "tabDone": "Finished"
   },
   "form": {
     "name": "Name",
@@ -86,7 +89,6 @@
   },
   "project": {
     "edit": "Edit project",
-    "note": "Note: {{note}}",
     "rows": "Rows",
     "stitches": "Stitches",
     "incrementRow": "+1 row",
@@ -102,7 +104,15 @@
     "resumeSession": "Resume session",
     "conflictTitle": "End the session on {{name}}?",
     "conflictMessage": "One session at a time: end the current one to start here.",
-    "conflictConfirm": "End and start"
+    "conflictConfirm": "End and start",
+    "stats": "Project summary",
+    "statRows_one": "row",
+    "statRows_other": "rows",
+    "statKnit": "knitted",
+    "statSessions_one": "session",
+    "statSessions_other": "sessions",
+    "progress": "Where I am",
+    "wool": "Yarn & needles"
   },
   "journal": {
     "title": "Log",
@@ -124,7 +134,10 @@
     "delete": "Delete session",
     "deleteTitle": "Delete this session?",
     "deleteMessage": "The session, its breaks and its review will be permanently deleted.",
-    "deleteConfirm": "Delete"
+    "deleteConfirm": "Delete",
+    "pauses_one": "{{count}} break",
+    "pauses_other": "{{count}} breaks",
+    "allTotal": "{{duration}} of knitting, all projects"
   },
   "counterReminders": {
     "title": "Row reminders",
@@ -137,10 +150,10 @@
     "decrease": "Decrease",
     "cutYarn": "Cut the yarn",
     "custom": "Other",
-    "item": "Row {{row}} · {{kind}}",
-    "due": "Row {{row}}: {{kind}}",
     "done": "Done",
-    "delete": "Delete reminder"
+    "delete": "Delete reminder",
+    "row": "Row {{row}}",
+    "reached": "Row {{row}} reached"
   },
   "session": {
     "end": "Finish",
@@ -150,16 +163,20 @@
     "knit": "Knitting",
     "pause": "Break",
     "session": "Session",
-    "progress": "Share of knitting in the session",
     "row": "Row",
     "rowZone": "Row {{count}} + 1: add a row",
     "plusOne": "+ 1",
-    "correct": "correct",
     "stitches": "Stitches",
     "startPause": "Take a break",
     "announce": "Knitting: {{duration}}",
-    "correctLabel": "correct: remove a row",
-    "rowZoneHint": "add a row"
+    "rowZoneHint": "add a row",
+    "minimize": "Minimise the session",
+    "knitLabel": "Knitting time",
+    "nextPause": "break in {{duration}}",
+    "nextPauseNow": "time for a break",
+    "undoRow": "Undo a row",
+    "pauseButton": "Break",
+    "times": "Break {{pause}} · Session {{session}}"
   },
   "pause": {
     "sheetTitle": "Break length",
@@ -245,13 +262,33 @@
     "label": "Welcome",
     "step": "Step {{current}} of {{total}}",
     "s1Title": "Your knitting notebook",
-    "s1Text": "One project per piece, with its rows, stitches and notes.",
+    "s1Text": "One project per piece, with its rows, stitches and your yarn notes.",
     "s2Title": "Breaks at the right time",
-    "s2Text": "Start a session: Yarnest tracks your knitting time and suggests a break at 30 min, 1 h and 2 h.",
+    "s2Text": "Start a session: Yarnest tracks your time and suggests a break at 30 min, 1 h and 2 h.",
     "s3Title": "Nothing gets lost",
-    "s3Text": "Everything stays on your phone, even if you close the tab. Install the app to better protect your data.",
+    "s3Text": "Everything stays on your phone. Add Yarnest to your home screen to keep your projects safe.",
     "next": "Next",
     "skip": "Skip",
-    "start": "Let’s go"
+    "start": "Let’s go",
+    "chip": "{{current}} / {{total}} · {{name}}",
+    "s1Chip": "Your projects",
+    "s2Chip": "Your breaks",
+    "s3Chip": "Your log"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "projects": "Projects",
+    "journal": "Log"
+  },
+  "home": {
+    "morning": "Good morning.",
+    "afternoon": "Good afternoon.",
+    "evening": "Good evening.",
+    "prompt": "Ready for a few rows?",
+    "week": "Last 7 days",
+    "weekTotal": "{{duration}} knitted",
+    "weekDay": "{{day}}: {{duration}}",
+    "weekNone": "{{day}}: no knitting",
+    "activeMeta": "{{time}} · row {{row}}"
   }
 }

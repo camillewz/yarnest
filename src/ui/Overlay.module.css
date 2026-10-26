@@ -5,7 +5,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background: color-mix(in srgb, var(--ink) 45%, transparent);
+  padding: var(--space-3) var(--space-3) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--ink) 35%, transparent);
 }
 
 .dialogBackdrop {
@@ -26,13 +27,19 @@
 }
 
 .sheet {
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  padding: var(--space-6) var(--space-4) calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  max-width: 40rem;
+  max-height: calc(100dvh - var(--space-6));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-5);
+  box-shadow: var(--shadow-float);
 }
 
 .dialog {
-  border-radius: var(--radius-md);
-  padding: var(--space-6) var(--space-4);
+  max-width: 28rem;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-5);
+  box-shadow: var(--shadow-float);
 }
 
 .actions {
@@ -52,8 +59,44 @@
   gap: var(--space-6);
   padding: calc(var(--space-6) + env(safe-area-inset-top, 0px)) var(--space-4)
     calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  isolation: isolate;
   background: var(--paper);
   color: var(--ink);
   text-align: center;
-  overflow-y: auto;
+  overflow: hidden auto;
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sheetTitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.description {
+  color: var(--ink-muted);
+}
+
+/* Pastille ronde irrégulière des rappels (sauge) et de l'onboarding. */
+.blob {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(var(--tap-min) + var(--space-2));
+  height: calc(var(--tap-min) + var(--space-2));
+  border-radius: 47% 53% 44% 56% / 55% 45% 55% 45%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.blob svg {
+  width: calc(var(--space-6) + var(--space-2));
+  height: calc(var(--space-6) + var(--space-2));
 }

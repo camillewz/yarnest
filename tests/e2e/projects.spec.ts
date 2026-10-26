@@ -1,9 +1,9 @@
 import { expect, test } from './fixtures';
-import { createProject, dbAll, dbCounts } from './helpers';
+import { createProject, dbAll, dbCounts, projectItems } from './helpers';
 
 test('CA1.3 : aucun projet → état vide et bouton de création', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Aucun projet pour l’instant' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Ton nid est encore vide' })).toBeVisible();
   await page.getByRole('link', { name: 'Créer mon premier projet' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Nouveau projet' })).toBeVisible();
 });
@@ -23,11 +23,11 @@ test('CA1.1 : nom obligatoire, projet créé « À faire », compteurs à 0, en 
 
   await expect(page.getByRole('heading', { level: 1, name: 'Bonnet côtelé' })).toBeVisible();
   await expect(page.getByRole('combobox', { name: 'Statut', exact: true })).toHaveValue('todo');
-  await expect(page.getByText('Note : mérinos, aig. 4 mm')).toBeVisible();
+  await expect(page.getByText('mérinos, aig. 4 mm')).toBeVisible();
   await expect(page.locator('output').first()).toHaveText('0');
 
   await page.getByRole('link', { name: 'Retour' }).click();
-  const first = page.getByRole('listitem').first();
+  const first = projectItems(page).first();
   await expect(first).toContainText('Bonnet côtelé');
   await expect(first).toContainText('À faire');
   await expect(first).toContainText('Rang 0 · aucune session');
@@ -38,19 +38,19 @@ test('CA1.2 : tri par dernière activité, filtre par statut', async ({ page }) 
   await createProject(page, 'Bravo');
   await createProject(page, 'Charlie');
   await page.goto('/');
-  await expect(page.getByRole('listitem')).toHaveText([/Charlie/, /Bravo/, /Alpha/]);
+  await expect(projectItems(page)).toHaveText([/Charlie/, /Bravo/, /Alpha/]);
 
   await page.getByRole('link', { name: /Alpha/ }).click();
   await page.getByRole('combobox', { name: 'Statut', exact: true }).selectOption('active');
   await page.getByRole('link', { name: 'Retour' }).click();
-  await expect(page.getByRole('listitem')).toHaveText([/Alpha/, /Charlie/, /Bravo/]);
+  await expect(projectItems(page)).toHaveText([/Alpha/, /Charlie/, /Bravo/]);
 
   await page.getByRole('button', { name: 'En cours' }).click();
-  await expect(page.getByRole('listitem')).toHaveText([/Alpha/]);
+  await expect(projectItems(page)).toHaveText([/Alpha/]);
   await page.getByRole('button', { name: 'Terminé' }).click();
   await expect(page.getByText('Aucun projet avec ce statut.')).toBeVisible();
   await page.getByRole('button', { name: 'Tous' }).click();
-  await expect(page.getByRole('listitem')).toHaveCount(3);
+  await expect(projectItems(page)).toHaveCount(3);
 });
 
 test('CA1.4 : changement de statut enregistré sans bouton, conservé après rechargement', async ({

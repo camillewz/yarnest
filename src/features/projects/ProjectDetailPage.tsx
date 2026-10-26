@@ -1,18 +1,21 @@
-import { Pencil, Play } from 'lucide-react';
+import { ChevronDown, Pencil, Play } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { safely } from '../../app/toast';
-import { useActiveSession, useProject } from '../../db/hooks';
+import { useActiveSession, useProject, useProjectHistory } from '../../db/hooks';
 import { endSession, setProjectStatus, startSession } from '../../db/repo';
 import { db } from '../../db/schema';
-import type { Project, ProjectStatus, Session } from '../../domain/types';
+import { formatDuration } from '../../domain/format';
+import { journal } from '../../domain/journal';
+import type { Locale, Project, ProjectStatus, Session } from '../../domain/types';
+import { statusTone } from '../../ui/Badge';
 import { Button } from '../../ui/Button';
-import { fieldStyles } from '../../ui/Field';
+import { cx } from '../../ui/cx';
 import { IconLink } from '../../ui/IconLink';
+import { Swatch, yarnColor } from '../../ui/Knit';
 import { ConfirmDialog } from '../../ui/Overlay';
 import { Page, PageMessage, pageStyles } from '../../ui/Page';
-import { cx } from '../../ui/cx';
 import { CounterRemindersSection, DueCounterReminders } from '../counterReminders/CounterReminders';
 import { CounterControls } from './CounterControl';
 import { Journal } from './Journal';
@@ -62,6 +65,16 @@ function ProjectDetail({ project }: { project: Project }) {
     <Page
       title={project.name}
       backTo="/"
+      halo={yarnColor(project.id)}
+      hero
+      eyebrow={
+        <div className={styles.chips}>
+          {project.technique && (
+            <span className={styles.technique}>{t(`technique.${project.technique}`)}</span>
+          )}
+          <StatusSelect project={project} />
+        </div>
+      }
       actions={
         <IconLink to={`/projects/${project.id}/edit`} label={t('project.edit')} icon={Pencil} />
       }
@@ -72,36 +85,26 @@ function ProjectDetail({ project }: { project: Project }) {
         </Button>
       }
     >
-      <div className={styles.meta}>
-        <label className={pageStyles.muted} htmlFor="project-status">
-          {t('status.label')}
-        </label>
-        <select
-          id="project-status"
-          className={cx(fieldStyles.input, styles.statusSelect)}
-          value={project.status}
-          onChange={(e) =>
-            void safely(() =>
-              setProjectStatus(project.id, e.target.value as ProjectStatus, Date.now()),
-            )
-          }
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {t(`status.${s}`)}
-            </option>
-          ))}
-        </select>
-        {project.technique && (
-          <span className={styles.technique}>{t(`technique.${project.technique}`)}</span>
-        )}
-      </div>
-
-      {project.note && <p className={styles.note}>{t('project.note', { note: project.note })}</p>}
+      <Stats project={project} />
 
       <DueCounterReminders project={project} />
 
-      <CounterControls project={project} />
+      <section className={pageStyles.section} aria-labelledby="progress-title">
+        <h2 id="progress-title">{t('project.progress')}</h2>
+        <CounterControls project={project} />
+      </section>
+
+      {project.note && (
+        <section className={styles.wool} aria-labelledby="wool-title">
+          <Swatch projectId={project.id} />
+          <div className={styles.woolText}>
+            <h2 id="wool-title" className="eyebrow">
+              {t('project.wool')}
+            </h2>
+            <p className={styles.note}>{project.note}</p>
+          </div>
+        </section>
+      )}
 
       <CounterRemindersSection project={project} />
 
@@ -118,5 +121,62 @@ function ProjectDetail({ project }: { project: Project }) {
         />
       )}
     </Page>
+  );
+}
+
+/** Statut en puce, modifiable sans bouton (CA1.4). */
+function StatusSelect({ project }: { project: Project }) {
+  const { t } = useTranslation();
+  const tone = statusTone(project.status);
+  return (
+    <span className={cx(styles.status, tone && styles[tone])}>
+      <label className="visually-hidden" htmlFor="project-status">
+        {t('status.label')}
+      </label>
+      <select
+        id="project-status"
+        className={styles.statusSelect}
+        value={project.status}
+        onChange={(e) =>
+          void safely(() =>
+            setProjectStatus(project.id, e.target.value as ProjectStatus, Date.now()),
+          )
+        }
+      >
+        {STATUSES.map((s) => (
+          <option key={s} value={s}>
+            {t(`status.${s}`)}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className={styles.statusIcon} aria-hidden="true" />
+    </span>
+  );
+}
+
+/** Trois tuiles : rangs, temps tricoté, sessions terminées. */
+function Stats({ project }: { project: Project }) {
+  const { t, i18n } = useTranslation();
+  const history = useProjectHistory(project.id);
+  const { entries, totalKnitMs } = history
+    ? journal(history.sessions, history.pauses, history.reviews)
+    : { entries: [], totalKnitMs: 0 };
+  const tiles = [
+    { value: String(project.rowCount), label: t('project.statRows', { count: project.rowCount }) },
+    { value: formatDuration(totalKnitMs, i18n.language as Locale), label: t('project.statKnit') },
+    {
+      value: String(entries.length),
+      label: t('project.statSessions', { count: entries.length }),
+    },
+  ];
+  return (
+    <dl className={styles.stats} aria-label={t('project.stats')}>
+      {tiles.map((tile) => (
+        <div key={tile.label} className={styles.stat}>
+          <dt className={styles.statLabel}>{tile.label}</dt>
+          <dd className={styles.statValue}>{tile.value}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }

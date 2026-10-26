@@ -1,4 +1,4 @@
-import { Minus, Pause as PauseIcon } from 'lucide-react';
+import { ChevronDown, Pause as PauseIcon, Plus, Undo2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router';
@@ -8,12 +8,16 @@ import { useActiveSession, usePauses, useProject, useSetting } from '../../db/ho
 import { applyCounter, endPause, endSession, startPause } from '../../db/repo';
 import { formatClock, formatDuration } from '../../domain/format';
 import { DEFAULT_PAUSE_MINUTES, findOpenPause } from '../../domain/pauses';
+import { pauseRing } from '../../domain/reminders';
 import { sessionTimes } from '../../domain/time';
 import type { Locale, Pause, Project, Session } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { Card } from '../../ui/Card';
+import { KnitTexture } from '../../ui/Knit';
 import { ConfirmDialog } from '../../ui/Overlay';
-import { Page, PageMessage, pageStyles } from '../../ui/Page';
+import { Page, PageMessage } from '../../ui/Page';
+import { Ring } from '../../ui/Ring';
+import { Stepper } from '../../ui/Stepper';
 import { unlockAudio, vibrate } from '../pauses/feedback';
 import { PauseScreen } from '../pauses/PauseScreen';
 import { PauseSheet } from '../pauses/PauseSheet';
@@ -59,13 +63,14 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
   const navigate = useNavigate();
   const now = useNow();
   const defaultPause = useSetting('defaultPauseMinutes');
+  const reminders = useSetting('remindersEnabled');
   const [pauseSheet, setPauseSheet] = useState(false);
   const [confirmEnd, setConfirmEnd] = useState(false);
   useWakeLock(true);
 
   const times = sessionTimes(session, pauses, now);
   const openPause = findOpenPause(pauses, session.id);
-  const knitShare = times.sessionMs > 0 ? (times.knitMs / times.sessionMs) * 100 : 100;
+  const ring = pauseRing({ session, pauses, now, remindersEnabled: reminders?.value !== false });
 
   const counter = (action: Parameters<typeof applyCounter>[1]) =>
     void safely(() => applyCounter(project.id, action, Date.now()));
@@ -99,38 +104,17 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
     <Page
       title={project.name}
       backTo={`/projects/${project.id}`}
+      backLabel={t('session.minimize')}
+      backIcon={ChevronDown}
+      compact
+      halo="var(--sage-light)"
+      className={styles.screen}
       actions={
-        <Button variant="secondary" onClick={() => setConfirmEnd(true)}>
+        <Button variant="glass" onClick={() => setConfirmEnd(true)}>
           {t('session.end')}
         </Button>
       }
     >
-      <section className={styles.times} aria-label={t('screens.session.title')}>
-        <span className={styles.knitLabel}>{t('session.knit')}</span>
-        <span className="counter" data-testid="knit-time">
-          {formatClock(times.knitMs)}
-        </span>
-        <span className={styles.secondary}>
-          {t('session.pause')} <span data-testid="pause-time">{formatClock(times.pauseMs)}</span> ·{' '}
-          {t('session.session')}{' '}
-          <span data-testid="session-time">{formatClock(times.sessionMs)}</span>
-        </span>
-        <div
-          className={styles.bar}
-          role="meter"
-          aria-label={t('session.progress')}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={Math.round(knitShare)}
-        >
-          <div className={styles.barKnit} style={{ width: `${knitShare}%` }} />
-        </div>
-        {/* Au plus une annonce par minute pour les temps (section 8). */}
-        <p className={styles.liveRegion} aria-live="polite">
-          {t('session.announce', { duration: formatDuration(times.knitMs, locale) })}
-        </p>
-      </section>
-
       <SessionExtras
         session={session}
         project={project}
@@ -139,47 +123,72 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
         onPause={openPauseSheet}
       />
 
+      <section className={styles.times} aria-label={t('screens.session.title')}>
+        <Ring progress={ring?.progress ?? 0} detailed className={styles.ring}>
+          <span className="eyebrow">{t('session.knitLabel')}</span>
+          <span className="counter" data-testid="knit-time">
+            {formatClock(times.knitMs)}
+          </span>
+          {ring?.reminder && (
+            <span className={styles.nextPause}>
+              {ring.remainingMs > 0
+                ? t('session.nextPause', {
+                    // Minute entamée : « pause dans 1 min » jusqu’au rappel.
+                    duration: formatDuration(Math.ceil(ring.remainingMs / 60_000) * 60_000, locale),
+                  })
+                : t('session.nextPauseNow')}
+            </span>
+          )}
+        </Ring>
+        <span className={styles.secondary}>
+          {t('session.pause')} <span data-testid="pause-time">{formatClock(times.pauseMs)}</span> ·{' '}
+          {t('session.session')}{' '}
+          <span data-testid="session-time">{formatClock(times.sessionMs)}</span>
+        </span>
+        {/* Au plus une annonce par minute pour les temps (section 8). */}
+        <p className="visually-hidden" aria-live="polite">
+          {t('session.announce', { duration: formatDuration(times.knitMs, locale) })}
+        </p>
+      </section>
+
+      <button type="button" className={styles.rowZone} onClick={incrementRow}>
+        <KnitTexture className={styles.rowTexture} />
+        <span className={styles.rowCount}>
+          <span className={styles.rowLabel}>{t('session.row')}</span>
+          <span className={styles.rowValue} data-testid="row-count">
+            {project.rowCount}
+          </span>
+        </span>
+        <span className="visually-hidden">
+          {t('session.plusOne')} {t('session.rowZoneHint')}
+        </span>
+        <span className={styles.plusOne} aria-hidden="true">
+          <Plus />
+        </span>
+      </button>
+
       <Card className={styles.stitches}>
         <span className={styles.stitchLabel} id="stitch-label">
           {t('session.stitches')}
         </span>
-        <output className={styles.stitchValue} aria-labelledby="stitch-label" aria-live="polite">
-          {project.stitchCount}
-        </output>
-        <Button
-          className={styles.round}
-          aria-label={t('project.decrementStitch')}
-          onClick={() => counter('decrementStitch')}
-        >
-          <Minus aria-hidden="true" />
-        </Button>
-        <Button className={styles.round} onClick={() => counter('incrementStitch')}>
-          {t('project.incrementStitch')}
-        </Button>
+        <Stepper
+          value={String(project.stitchCount)}
+          labelledBy="stitch-label"
+          decreaseLabel={t('project.decrementStitch')}
+          increaseLabel={t('project.incrementStitch')}
+          onDecrease={() => counter('decrementStitch')}
+          onIncrease={() => counter('incrementStitch')}
+        />
       </Card>
 
-      <button type="button" className={styles.rowZone} onClick={incrementRow}>
-        <span className={styles.rowLabel}>{t('session.row')}</span>
-        <span className="counter" data-testid="row-count">
-          {project.rowCount}
-        </span>
-        <span className={styles.plusOne}>{t('session.plusOne')}</span>
-        <span className={styles.liveRegion}>{t('session.rowZoneHint')}</span>
-      </button>
-
-      <Button
-        variant="ghost"
-        className={styles.correct}
-        aria-label={t('session.correctLabel')}
-        onClick={() => counter('decrementRow')}
-      >
-        <Minus aria-hidden="true" /> {t('session.correct')}
-      </Button>
-
-      <div className={pageStyles.bottom}>
-        <Button variant="secondary" block large onClick={openPauseSheet}>
+      <div className={styles.actions}>
+        <Button variant="secondary" onClick={() => counter('decrementRow')}>
+          <Undo2 aria-hidden="true" />
+          {t('session.undoRow')}
+        </Button>
+        <Button variant="dark" onClick={openPauseSheet}>
           <PauseIcon aria-hidden="true" />
-          {t('session.startPause')}
+          {t('session.pauseButton')}
         </Button>
       </div>
 

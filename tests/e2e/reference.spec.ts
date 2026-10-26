@@ -34,7 +34,8 @@ test('créer, démarrer, compter, pause, recharger, reprendre, terminer, bilan, 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Bonnet côtelé');
   await expect(page.getByTestId('journal-total')).toHaveText('22 min de tricot');
   const entry = page.getByRole('list').last().getByRole('listitem').first();
-  await expect(entry).toContainText('22 min tricot · 8 min pause · +3 rangs');
+  await expect(entry).toContainText('22 min tricot · 8 min pause');
+  await expect(entry).toContainText('+3 rangs');
   await expect(entry).toContainText('Poignets');
   await expect(entry.getByRole('img', { name: 'Ressenti 4 sur 5' })).toBeVisible();
   const [project] = await dbAll<{ rowCount: number; stitchCount: number }>(page, 'projects');

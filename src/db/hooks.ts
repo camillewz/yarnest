@@ -47,6 +47,17 @@ export const useAllHistory = () =>
     return { sessions, pauses };
   });
 
+/** Sessions, pauses et bilans de tous les projets (journal global). */
+export const useAllJournal = () =>
+  useLiveQuery(async () => {
+    const [sessions, pauses, reviews] = await Promise.all([
+      db.sessions.toArray(),
+      db.pauses.toArray(),
+      db.reviews.toArray(),
+    ]);
+    return { sessions, pauses, reviews };
+  });
+
 export const useCounterReminders = (projectId: string | undefined) =>
   useById(projectId, (key) => db.counterReminders.where('projectId').equals(key).sortBy('atRow'))
     ?.value;

@@ -1,0 +1,27 @@
+.tabs {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  flex-shrink: 0;
+  min-height: var(--tap-min);
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--ink-muted);
+  font: var(--text-title);
+  font-weight: 500;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.tab[aria-pressed='true'] {
+  border-bottom-color: var(--primary);
+  color: var(--primary-strong);
+  font-weight: 600;
+}

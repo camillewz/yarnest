@@ -69,9 +69,12 @@ export const knit = (page: Page) => page.getByTestId('knit-time');
 export const pauseTime = (page: Page) => page.getByTestId('pause-time');
 export const sessionTime = (page: Page) => page.getByTestId('session-time');
 export const rowCount = (page: Page) => page.getByTestId('row-count');
+/** Cartes de E1 (la page a d'autres listes : les 7 derniers jours). */
+export const projectItems = (page: Page) =>
+  page.getByRole('list', { name: 'Mes projets' }).getByRole('listitem');
 
 export async function launchPause(page: Page, minutes = 5) {
-  await page.getByRole('button', { name: 'Faire une pause' }).click();
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
   for (let m = 5; m < minutes; m += 5) {
     await page.getByRole('button', { name: '5 minutes de plus' }).click();
   }

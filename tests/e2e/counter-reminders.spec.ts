@@ -12,10 +12,12 @@ test('rappel de rang : créé sur E3, affiché en session au rang prévu, marqu�
   await sheet.getByLabel('Type').selectOption('cutYarn');
   await sheet.getByLabel('Précision (facultatif)').fill('couleur B');
   await sheet.getByRole('button', { name: 'Ajouter un rappel' }).click();
-  await expect(page.getByText('Rang 2 · Couper la laine — couleur B')).toBeVisible();
+  await expect(
+    page.getByRole('listitem').filter({ hasText: 'Couper la laine — couleur B' }),
+  ).toContainText('Rang 2');
 
   await page.getByRole('button', { name: 'Démarrer une session' }).click();
-  const due = page.getByText('Rang 2 : Couper la laine — couleur B');
+  const due = page.getByText('Rang 2 atteint Couper la laine — couleur B');
   await page.getByRole('button', { name: /Rang \d+ \+ 1/ }).click();
   await expect(page.getByTestId('row-count')).toHaveText('1');
   await expect(due).toBeHidden();

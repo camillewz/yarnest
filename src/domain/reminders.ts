@@ -124,7 +124,10 @@ export function pauseRing({
   });
 
   if (active && session.reminderStage === 3 && session.remindersMode === 'every30') {
-    const last = Math.max(session.lastReminderAt ? toInstant(session.lastReminderAt) : start, start);
+    const last = Math.max(
+      session.lastReminderAt ? toInstant(session.lastReminderAt) : start,
+      start,
+    );
     return span(last, last + REPEAT_INTERVAL_MIN * MIN, true);
   }
   if (active && session.reminderStage < 3) {

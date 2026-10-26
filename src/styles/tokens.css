@@ -4,23 +4,55 @@
 :root {
   --paper: #FBF5EC; /* Fond de page, crème chaud. */
   --surface: #FFFFFF; /* Cartes et feuilles (projet, session). */
-  --ink: #3B2A22; /* Texte principal sur paper/surface (≈12:1). */
+  --ink: #3B2A22; /* Texte principal sur paper/surface (≈12:1). Fond de la carte « En cours ». */
   --ink-muted: #7A6458; /* Texte secondaire, métadonnées (≥4.5:1 sur paper). */
   --primary: #B5573A; /* Terracotta : bouton principal, minuteur actif. Texte blanc dessus (4.8:1). */
+  --primary-strong: #8F4129; /* Texte terracotta sur --primary-soft (≥4.5:1). */
   --primary-soft: #F3DDD2; /* Fond de puce/état sélectionné, halo du minuteur. */
   --accent: #627556; /* Sauge : rappels de rangs, statut « en cours ». Texte blanc dessus (4.9:1). */
+  --accent-ink: #3F4F36; /* Texte sauge sur --accent-soft (≥4.5:1). */
   --accent-soft: #E3E9DC; /* Fond des rappels et badges sauge. */
   --line: #E8DCCD; /* Bordures de cartes et séparateurs. */
+  --stitch: #E3CDB8; /* Coutures en pointillés, mailles non faites. */
   --alert: #9E3B2E; /* Douleur signalée / suppression. Toujours avec une icône ou un libellé. */
+
+  /* Halos flous de fond et texture : décor seulement, jamais sous du texte qui en dépend. */
+  --apricot: #E9906C; /* Halo chaud, anneau sur fond --ink. */
+  --peach: #F6C9AE; /* Halo doux. */
+  --sage-light: #A9BA9C; /* Halo sauge, point « en cours » sur fond --ink. */
+
+  /* Échantillons de laine des projets (vignettes, halo de la fiche). */
+  --yarn-terracotta: #B5573A;
+  --yarn-apricot: #E9A27E;
+  --yarn-sage: #8FA284;
+  --yarn-blue: #7D93AB;
 
   --space-1: 4px; /* Écart icône/texte. */
   --space-2: 8px; /* Écart entre éléments liés. */
+  --space-3: 12px; /* Écart dans une carte, entre cartes d'une liste. */
   --space-4: 16px; /* Padding des cartes, marge latérale mobile. */
+  --space-5: 20px; /* Écart entre blocs d'un même écran. */
   --space-6: 24px; /* Écart entre sections. */
 
   --radius-sm: 10px; /* Champs, puces. */
   --radius-md: 18px; /* Cartes, boutons. */
+  --radius-lg: 24px; /* Grandes cartes, feuilles. */
+  --radius-xl: 32px; /* Zone +1 rang, feuilles flottantes. */
   --radius-pill: 999px; /* Bouton minuteur, compteur de rangs, badges. */
+
+  --shadow-card: 0 6px 18px rgb(91 52 30 / 6%);
+  --shadow-float: 0 12px 30px rgb(91 52 30 / 12%);
+  --shadow-primary: 0 10px 24px rgb(181 87 58 / 28%);
+
+  /* Verre dépoli : boutons ronds d'en-tête, tuiles et barre de navigation. */
+  --glass: rgb(255 255 255 / 62%);
+  --glass-strong: rgb(255 255 255 / 90%);
+  --glass-border: rgb(255 255 255 / 80%);
+  --glass-blur: blur(16px);
+  --halo-blur: blur(28px);
+  --scrim: rgb(59 42 34 / 18%);
+  --on-ink-muted: rgb(255 255 255 / 15%); /* Piste d'anneau sur fond --ink. */
+  --on-primary-soft: rgb(255 255 255 / 18%); /* Pastille + sur fond --primary. */
 
   --tap-min: 48px; /* Hauteur/largeur minimale de toute cible tactile (mains occupées). */
   --tap-primary: 72px; /* Bouton minuteur et +1 rang. */
@@ -28,16 +60,25 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-heading: "Figtree", system-ui, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
-  --text-display: 600 40px/44px var(--font-display);
-  --text-h1: 700 28px/34px var(--font-heading);
-  --text-h2: 600 20px/26px var(--font-heading);
-  --text-counter: 700 56px/60px var(--font-heading);
+  /* Fraunces pour le logo et les titres d'écran (h1, h2) ; Figtree pour l'interface et les chiffres. */
+  --text-display: 520 44px/48px var(--font-display); /* Accueil « Bonsoir. ». */
+  --text-h1: 520 36px/42px var(--font-display);
+  --text-h2: 540 24px/30px var(--font-display);
+  --text-title: 600 17px/22px var(--font-heading); /* Boutons, titres de carte. */
+  --text-stat: 600 26px/30px var(--font-heading); /* Tuiles et valeurs de compteurs. */
+  --text-counter: 500 56px/60px var(--font-heading);
+  --text-counter-xl: 500 92px/96px var(--font-heading); /* Rang de la zone +1. */
   --text-label: 600 13px/16px var(--font-heading);
   --text-body: 400 16px/1.5 var(--font-body);
   --text-small: 400 14px/20px var(--font-body);
+  --tracking-caps: 0.12em; /* Surtitres en capitales. */
+  --tracking-tight: -0.025em; /* Titres Fraunces et grands chiffres. */
 }
 
 html { color-scheme: light; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: var(--text-body); }
-h1 { font: var(--text-h1); } h2 { font: var(--text-h2); }
-.counter { font: var(--text-counter); font-variant-numeric: tabular-nums; }
+h1 { font: var(--text-h1); letter-spacing: var(--tracking-tight); }
+h2 { font: var(--text-h2); }
+.counter { font: var(--text-counter); font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-tight); }
+.eyebrow { font: var(--text-label); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--ink-muted); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

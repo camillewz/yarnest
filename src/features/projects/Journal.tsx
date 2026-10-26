@@ -7,7 +7,7 @@ import { deleteSession, setManualKnitTime } from '../../db/repo';
 import { formatDuration } from '../../domain/format';
 import { journal, type JournalEntry } from '../../domain/journal';
 import type { Locale } from '../../domain/types';
-import { shortDate } from '../../i18n/dates';
+import { dayParts, shortDate } from '../../i18n/dates';
 import { Button, buttonClass } from '../../ui/Button';
 import { Field } from '../../ui/Field';
 import { ConfirmDialog, Sheet } from '../../ui/Overlay';
@@ -19,11 +19,9 @@ export function Journal({ projectId }: { projectId: string }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language as Locale;
   const history = useProjectHistory(projectId);
-  const [openId, setOpenId] = useState<string | null>(null);
   if (!history) return null;
 
   const { entries, totalKnitMs } = journal(history.sessions, history.pauses, history.reviews);
-  const open = entries.find((e) => e.session.id === openId);
 
   return (
     <section className={pageStyles.section} aria-labelledby="journal-title">
@@ -33,60 +31,83 @@ export function Journal({ projectId }: { projectId: string }) {
           {t('journal.total', { duration: formatDuration(totalKnitMs, locale) })}
         </span>
       </div>
-      {entries.length === 0 ? (
-        <p className={pageStyles.muted}>{t('journal.empty')}</p>
-      ) : (
-        <ul className={styles.list}>
-          {entries.map((entry) => (
-            <li key={entry.session.id}>
-              <button
-                type="button"
-                className={styles.entry}
-                onClick={() => setOpenId(entry.session.id)}
-              >
-                <EntryLine entry={entry} />
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      {open && <EntryDetail entry={open} onClose={() => setOpenId(null)} />}
+      <JournalList entries={entries} />
     </section>
   );
 }
 
-function EntryLine({ entry }: { entry: JournalEntry }) {
+/** Lignes du journal, détail éditable au tap. `projectNames` : journal tous projets. */
+export function JournalList({
+  entries,
+  projectNames,
+}: {
+  entries: JournalEntry[];
+  projectNames?: ReadonlyMap<string, string>;
+}) {
+  const { t } = useTranslation();
+  const [openId, setOpenId] = useState<string | null>(null);
+  const open = entries.find((e) => e.session.id === openId);
+  if (entries.length === 0) return <p className={pageStyles.muted}>{t('journal.empty')}</p>;
+  return (
+    <>
+      <ul className={styles.list}>
+        {entries.map((entry) => (
+          <li key={entry.session.id}>
+            <button
+              type="button"
+              className={styles.entry}
+              onClick={() => setOpenId(entry.session.id)}
+            >
+              <EntryLine entry={entry} project={projectNames?.get(entry.session.projectId)} />
+            </button>
+          </li>
+        ))}
+      </ul>
+      {open && <EntryDetail entry={open} onClose={() => setOpenId(null)} />}
+    </>
+  );
+}
+
+function EntryLine({ entry, project }: { entry: JournalEntry; project?: string | undefined }) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language as Locale;
   const { session, times, review } = entry;
+  const day = dayParts(session.startedAt, locale);
   const parts = [
     t('journal.knit', { duration: formatDuration(times.knitMs, locale) }) +
       (session.manualKnitSeconds !== undefined ? ` (${t('journal.corrected')})` : ''),
     t('journal.pause', { duration: formatDuration(times.pauseMs, locale) }),
-    ...(entry.rowsDone !== undefined ? [t('journal.rowsDone', { count: entry.rowsDone })] : []),
   ];
   return (
     <>
-      <span className={styles.date}>{shortDate(session.startedAt, locale)}</span> ·{' '}
-      {parts.join(' · ')}
-      {review?.mood && (
-        <>
-          {' · '}
-          <span
-            className={styles.mood}
-            role="img"
-            aria-label={t('journal.mood', { value: review.mood })}
-          >
-            {'●'.repeat(review.mood)}
-            {'○'.repeat(5 - review.mood)}
+      <span className={styles.date} aria-hidden="true">
+        <span className={styles.weekday}>{day.weekday}</span>
+        <span className={styles.dayNumber}>{day.day}</span>
+      </span>
+      <span className="visually-hidden">{shortDate(session.startedAt, locale)}</span>
+      <span className={styles.body}>
+        {project && <span className={styles.project}>{project}</span>}
+        <span className={styles.detail}>{parts.join(' · ')}</span>
+        {(review?.mood || (review && review.zones.length > 0)) && (
+          <span className={styles.review}>
+            {review.mood && (
+              <span
+                className={styles.mood}
+                role="img"
+                aria-label={t('journal.mood', { value: review.mood })}
+              >
+                {'●'.repeat(review.mood)}
+                {'○'.repeat(5 - review.mood)}
+              </span>
+            )}
+            {review.zones.length > 0 && (
+              <span>{review.zones.map((z) => t(`review.${z}`)).join(', ')}</span>
+            )}
           </span>
-        </>
-      )}
-      {review && review.zones.length > 0 && (
-        <span className={styles.muted}>
-          {' '}
-          · {review.zones.map((z) => t(`review.${z}`)).join(', ')}
-        </span>
+        )}
+      </span>
+      {entry.rowsDone !== undefined && (
+        <span className={styles.rows}>{t('journal.rowsDone', { count: entry.rowsDone })}</span>
       )}
     </>
   );
@@ -117,7 +138,7 @@ function EntryDetail({ entry, onClose }: { entry: JournalEntry; onClose: () => v
     >
       <div className={styles.detail}>
         <fieldset className={styles.time}>
-          <legend className={styles.date}>{t('journal.knitTime')}</legend>
+          <legend>{t('journal.knitTime')}</legend>
           <Field label={t('journal.hours')}>
             {(props) => (
               <input

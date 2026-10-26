@@ -103,7 +103,7 @@ test('CA2.7 : navigateur sans Wake Lock → aucune erreur, session utilisable', 
 
 test('CA3.1 : 5 min par défaut, bornes 5 et 60 par paliers de 5', async ({ page }) => {
   await startSession(page);
-  await page.getByRole('button', { name: 'Faire une pause' }).click();
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
   const value = page.getByRole('dialog').locator('output');
   await expect(value).toHaveText('5 min');
   await expect(page.getByRole('button', { name: '5 minutes de moins' })).toBeDisabled();
@@ -157,7 +157,7 @@ test('CA4.1 et CA4.5 : +1 rang remet les mailles à 0 ; 20 taps rapides → +20'
   for (let i = 0; i < 20; i++) await zone.click({ delay: 0, noWaitAfter: true });
   await expect(rowCount(page)).toHaveText('20');
   await expect(page.getByRole('main').locator('output')).toHaveText('0');
-  await page.getByRole('button', { name: /retirer un rang/ }).click();
+  await page.getByRole('button', { name: 'Annuler un rang' }).click();
   await expect(rowCount(page)).toHaveText('19');
 });
 

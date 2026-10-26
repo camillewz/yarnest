@@ -50,24 +50,27 @@
     },
     "settings": {
       "title": "Réglages"
+    },
+    "journal": {
+      "title": "Journal"
     }
   },
   "projects": {
     "filterLabel": "Filtrer par statut",
     "all": "Tous",
     "new": "Nouveau projet",
-    "emptyTitle": "Aucun projet pour l’instant",
+    "emptyTitle": "Ton nid est encore vide",
     "emptyText": "Crée ton premier projet pour suivre tes rangs et rythmer tes pauses.",
     "createFirst": "Créer mon premier projet",
     "noneInFilter": "Aucun projet avec ce statut.",
     "row": "Rang {{count}}",
     "noSession": "aucune session",
     "lastSession": "{{day}}, {{duration}}",
-    "activeBanner": "Session en cours · {{name}}",
-    "activeKnit": "Tricot {{time}}",
     "resume": "Reprendre",
     "pendingReviewTitle": "Faire le bilan de ta session",
-    "pendingReviewText": "Ta session sur {{name}} s’est fermée après 12 h sans activité."
+    "pendingReviewText": "Ta session sur {{name}} s’est fermée après 12 h sans activité.",
+    "tab": "{{label}} · {{count}}",
+    "tabDone": "Terminés"
   },
   "form": {
     "name": "Nom",
@@ -86,7 +89,6 @@
   },
   "project": {
     "edit": "Modifier le projet",
-    "note": "Note : {{note}}",
     "rows": "Rangs",
     "stitches": "Mailles",
     "incrementRow": "+1 rang",
@@ -102,7 +104,15 @@
     "resumeSession": "Reprendre la session",
     "conflictTitle": "Terminer la session sur {{name}} ?",
     "conflictMessage": "Une seule session à la fois : termine celle en cours pour démarrer ici.",
-    "conflictConfirm": "Terminer et démarrer"
+    "conflictConfirm": "Terminer et démarrer",
+    "stats": "Résumé du projet",
+    "statRows_one": "rang",
+    "statRows_other": "rangs",
+    "statKnit": "tricotées",
+    "statSessions_one": "session",
+    "statSessions_other": "sessions",
+    "progress": "Où j’en suis",
+    "wool": "Laine & aiguilles"
   },
   "journal": {
     "title": "Journal",
@@ -124,7 +134,10 @@
     "delete": "Supprimer la session",
     "deleteTitle": "Supprimer cette session ?",
     "deleteMessage": "La session, ses pauses et son bilan seront effacés définitivement.",
-    "deleteConfirm": "Supprimer"
+    "deleteConfirm": "Supprimer",
+    "pauses_one": "{{count}} pause",
+    "pauses_other": "{{count}} pauses",
+    "allTotal": "{{duration}} de tricot, tous projets"
   },
   "counterReminders": {
     "title": "Rappels de rangs",
@@ -137,10 +150,10 @@
     "decrease": "Diminution",
     "cutYarn": "Couper la laine",
     "custom": "Autre",
-    "item": "Rang {{row}} · {{kind}}",
-    "due": "Rang {{row}} : {{kind}}",
     "done": "Fait",
-    "delete": "Supprimer le rappel"
+    "delete": "Supprimer le rappel",
+    "row": "Rang {{row}}",
+    "reached": "Rang {{row}} atteint"
   },
   "session": {
     "end": "Terminer",
@@ -150,16 +163,20 @@
     "knit": "Tricot",
     "pause": "Pause",
     "session": "Session",
-    "progress": "Part du tricot dans la session",
     "row": "Rang",
     "rowZone": "Rang {{count}} + 1 : ajouter un rang",
     "plusOne": "+ 1",
-    "correct": "corriger",
     "stitches": "Mailles",
     "startPause": "Faire une pause",
     "announce": "Tricot : {{duration}}",
-    "correctLabel": "corriger : retirer un rang",
-    "rowZoneHint": "ajouter un rang"
+    "rowZoneHint": "ajouter un rang",
+    "minimize": "Réduire la session",
+    "knitLabel": "Temps tricoté",
+    "nextPause": "pause dans {{duration}}",
+    "nextPauseNow": "c’est l’heure d’une pause",
+    "undoRow": "Annuler un rang",
+    "pauseButton": "Pause",
+    "times": "Pause {{pause}} · Session {{session}}"
   },
   "pause": {
     "sheetTitle": "Durée de la pause",
@@ -245,13 +262,33 @@
     "label": "Bienvenue",
     "step": "Étape {{current}} sur {{total}}",
     "s1Title": "Ton carnet de tricot",
-    "s1Text": "Un projet par ouvrage, avec ses rangs, ses mailles et ses notes.",
+    "s1Text": "Un projet par ouvrage, avec ses rangs, ses mailles et tes notes de laine.",
     "s2Title": "Des pauses au bon moment",
-    "s2Text": "Lance une session : Yarnest compte ton temps de tricot et te propose une pause à 30 min, 1 h et 2 h.",
+    "s2Text": "Lance une session : Yarnest compte ton temps et te propose une pause à 30 min, 1 h et 2 h.",
     "s3Title": "Rien ne se perd",
-    "s3Text": "Tout reste sur ton téléphone, même si tu fermes l’onglet. Installe l’app pour mieux protéger tes données.",
+    "s3Text": "Tout reste sur ton téléphone. Ajoute Yarnest à ton écran d’accueil pour garder tes projets à l’abri.",
     "next": "Suivant",
     "skip": "Passer",
-    "start": "C’est parti"
+    "start": "C’est parti",
+    "chip": "{{current}} / {{total}} · {{name}}",
+    "s1Chip": "Tes projets",
+    "s2Chip": "Tes pauses",
+    "s3Chip": "Ton journal"
+  },
+  "nav": {
+    "label": "Navigation principale",
+    "projects": "Projets",
+    "journal": "Journal"
+  },
+  "home": {
+    "morning": "Bonjour.",
+    "afternoon": "Bonjour.",
+    "evening": "Bonsoir.",
+    "prompt": "Envie de quelques rangs ?",
+    "week": "7 derniers jours",
+    "weekTotal": "{{duration}} tricotées",
+    "weekDay": "{{day}} : {{duration}}",
+    "weekNone": "{{day}} : pas de tricot",
+    "activeMeta": "{{time}} · rang {{row}}"
   }
 }
