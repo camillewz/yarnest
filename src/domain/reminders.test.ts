@@ -8,7 +8,7 @@ import {
   pauseStartedReminderPatch,
   pauseRing,
 } from './reminders';
-import { at, iso, makePause, makeSession } from './testing';
+import { MIN, at, iso, makePause, makeSession } from './testing';
 import type { Pause, Session } from './types';
 
 const due = (session: Session, pauses: Pause[], now: number, enabled = true) =>

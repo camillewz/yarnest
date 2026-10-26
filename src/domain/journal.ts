@@ -42,3 +42,20 @@ export function journal(
 }
 
 const withReview = (review: Review | undefined) => (review ? { review } : {});
+
+/** Temps de tricot par jour (accueil) : chaque session compte au jour de son début. */
+export function knitByDay(
+  sessions: readonly Session[],
+  pauses: readonly Pause[],
+  days: readonly { start: number; end: number }[],
+  now: number,
+): number[] {
+  return days.map(({ start, end }) =>
+    sessions
+      .filter((s) => {
+        const startedAt = toInstant(s.startedAt);
+        return startedAt >= start && startedAt < end;
+      })
+      .reduce((sum, s) => sum + sessionTimes(s, pauses, now).knitMs, 0),
+  );
+}
