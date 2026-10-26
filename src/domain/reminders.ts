@@ -91,3 +91,49 @@ export function reminderMinutes(
     Math.floor(elapsed / REPEAT_INTERVAL_MIN) * REPEAT_INTERVAL_MIN,
   );
 }
+
+export interface PauseRing {
+  /** Part du tour en cours, de 0 à 1. */
+  progress: number;
+  /** Temps restant avant la fin du tour. */
+  remainingMs: number;
+  /** `true` si un rappel de pause est attendu au bout du tour. */
+  reminder: boolean;
+}
+
+/**
+ * Anneau de E4 : avance vers le prochain rappel (30 min, 1 h, 2 h, puis toutes les 30 min
+ * après « Continuer »). Sans rappel à venir, il fait des tours de 30 min. `null` pendant une pause.
+ */
+export function pauseRing({
+  session,
+  pauses,
+  remindersEnabled,
+  now,
+}: DueReminderInput): PauseRing | null {
+  if (session.endedAt) return null;
+  const start = continuousKnitStart(session, pauses);
+  if (start === null) return null;
+  const elapsed = Math.max(0, now - start);
+  const active = remindersEnabled && session.remindersMode !== 'off';
+
+  const span = (from: Instant, to: Instant, reminder: boolean): PauseRing => ({
+    progress: Math.min(1, Math.max(0, (now - from) / (to - from))),
+    remainingMs: Math.max(0, to - now),
+    reminder,
+  });
+
+  if (active && session.reminderStage === 3 && session.remindersMode === 'every30') {
+    const last = Math.max(session.lastReminderAt ? toInstant(session.lastReminderAt) : start, start);
+    return span(last, last + REPEAT_INTERVAL_MIN * MIN, true);
+  }
+  if (active && session.reminderStage < 3) {
+    const thresholds = [0, ...([1, 2, 3] as const).map((s) => REMINDER_THRESHOLDS_MIN[s] * MIN)];
+    const next = thresholds.findIndex((t) => t > elapsed);
+    if (next === -1) return { progress: 1, remainingMs: 0, reminder: true };
+    return span(start + (thresholds[next - 1] ?? 0), start + (thresholds[next] ?? 0), true);
+  }
+  const lap = REPEAT_INTERVAL_MIN * MIN;
+  const from = start + Math.floor(elapsed / lap) * lap;
+  return span(from, from + lap, false);
+}
