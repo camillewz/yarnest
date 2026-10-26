@@ -104,7 +104,9 @@ test('CA2.6 : dernière action à T, ouverture à T + 12 h 01 → clôture auto,
     page.getByText('Session fermée automatiquement après 12 h sans activité.'),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Passer' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Bonnet côtelé');
   await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1, name: 'Mes projets' })).toBeVisible();
   await expect(card).toBeHidden();
 });
 

@@ -110,6 +110,7 @@ base.describe('premier lancement', () => {
         )
         .toBe(1);
       await page.getByRole('button', { name: 'Passer' }).click();
+      await expect(page.getByRole('dialog', { name: 'Bienvenue' })).toBeHidden();
       await page.goto('/settings');
       await expect(page.getByText('Stockage protégé : oui')).toBeVisible();
     },
