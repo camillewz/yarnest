@@ -1,5 +1,5 @@
-import { journal } from './journal';
-import { HOUR, MIN, iso, makePause, makeSession } from './testing';
+import { journal, knitByDay } from './journal';
+import { HOUR, MIN, at, iso, makePause, makeSession } from './testing';
 import type { Review } from './types';
 
 const ended = (id: string, start: number, end: number, extra = {}) =>
@@ -47,5 +47,38 @@ describe('journal (US6.1, US6.2)', () => {
 
   it('projet sans session → journal vide', () => {
     expect(journal([], [], [])).toEqual({ entries: [], totalKnitMs: 0 });
+  });
+});
+
+describe('knitByDay (accueil, « 7 derniers jours »)', () => {
+  const day = (n: number) => ({ start: at(n * 24 * 60), end: at((n + 1) * 24 * 60) });
+  const days = [day(0), day(1), day(2)];
+
+  it('chaque session compte au jour de son début, pauses déduites', () => {
+    const a = ended('a', 0, 60);
+    const b = ended('b', 120, 150);
+    const c = ended('c', 24 * 60 + 10, 24 * 60 + 40);
+    const pauses = [makePause(10, 25, { sessionId: 'a' })];
+    expect(knitByDay([a, b, c], pauses, days, at(3 * 24 * 60))).toEqual([
+      45 * MIN + 30 * MIN,
+      30 * MIN,
+      0,
+    ]);
+  });
+
+  it('une session active compte jusqu’à maintenant', () => {
+    const live = makeSession({ id: 'live', startedAt: iso(2 * 24 * 60 + 5) });
+    expect(knitByDay([live], [], days, at(2 * 24 * 60 + 25))).toEqual([0, 0, 20 * MIN]);
+  });
+
+  it('durée corrigée prioritaire ; sessions hors fenêtre ignorées', () => {
+    const fixed = ended('f', 30, 40, { manualKnitSeconds: 3600 });
+    const before = ended('old', -24 * 60, -23 * 60);
+    expect(knitByDay([fixed, before], [], days, at(3 * 24 * 60))).toEqual([HOUR, 0, 0]);
+  });
+
+  it('borne de jour : début pile à minuit → jour suivant', () => {
+    const midnight = ended('m', 24 * 60, 24 * 60 + 15);
+    expect(knitByDay([midnight], [], days, at(3 * 24 * 60))).toEqual([0, 15 * MIN, 0]);
   });
 });
