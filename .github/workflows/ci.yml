@@ -3,6 +3,8 @@ name: CI
 on:
   push:
   pull_request:
+  # Relancer une mise en ligne à la main : onglet Actions > CI > Run workflow (branche main).
+  workflow_dispatch:
 
 jobs:
   check:
@@ -37,3 +39,58 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
+
+  # Mise en ligne sur l'hébergement OVH, seulement depuis main et une fois tous les tests verts.
+  # Secrets du repo à créer : OVH_FTP_SERVER, OVH_FTP_USER, OVH_FTP_PASSWORD (docs/DEPLOIEMENT.md).
+  deploy:
+    needs: [check, e2e]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-ovh
+      cancel-in-progress: false
+    env:
+      FTP_SERVER: ${{ secrets.OVH_FTP_SERVER }}
+      FTP_USER: ${{ secrets.OVH_FTP_USER }}
+      LFTP_PASSWORD: ${{ secrets.OVH_FTP_PASSWORD }}
+      FTP_DIR: ${{ vars.OVH_FTP_DIR || 'www' }}
+    steps:
+      - name: Vérifier les accès FTP
+        id: secrets
+        run: |
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$LFTP_PASSWORD" ]; then
+            echo "::notice::Mise en ligne ignorée : secrets OVH_FTP_* absents (voir docs/DEPLOIEMENT.md)."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ready == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Construire le site
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          npm ci
+          npm run build
+      - name: Installer lftp
+        if: steps.secrets.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Envoyer sur OVH
+        if: steps.secrets.outputs.ready == 'true'
+        # Ordre : fichiers versionnés d'abord, puis index.html et le service worker, puis
+        # suppression des anciens fichiers : un visiteur ne voit jamais une version à moitié envoyée.
+        run: |
+          lftp --env-password -u "$FTP_USER" "$FTP_SERVER" <<LFTP
+          set ftp:ssl-allow yes
+          set net:max-retries 3
+          set net:timeout 30
+          mirror --reverse --verbose --parallel=4 --exclude-glob index.html --exclude-glob sw.js dist/ "$FTP_DIR"/
+          put -O "$FTP_DIR" dist/index.html
+          put -O "$FTP_DIR" dist/sw.js
+          mirror --reverse --delete --only-newer --verbose dist/ "$FTP_DIR"/
+          bye
+          LFTP

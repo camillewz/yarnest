@@ -7,7 +7,9 @@ vérifier à la main (ce que les tests automatiques ne couvrent pas) et les arbi
 
 Le service worker, le Wake Lock et l'installation PWA exigent HTTPS (ou `localhost`).
 
-**Hébergement OVH (mutualisé)** : `npm run build`, puis envoyer **le contenu** de `dist/`
+**Hébergement OVH (mutualisé)** : mise en ligne automatique à chaque mise à jour de `main`,
+une fois les accès FTP enregistrés dans GitHub ([DEPLOIEMENT.md](DEPLOIEMENT.md)). À la main :
+`npm run build`, puis envoyer **le contenu** de `dist/`
 (y compris le fichier caché `.htaccess`) dans le dossier racine du site par FTP. Le
 `.htaccess` force HTTPS, renvoie toutes les routes vers `index.html` et règle le cache du
 service worker. Le certificat SSL doit être actif : le domaine `.app` n'accepte que HTTPS.
