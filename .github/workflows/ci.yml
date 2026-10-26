@@ -86,6 +86,7 @@ jobs:
         if: steps.secrets.outputs.ready == 'true'
         # Ordre : fichiers versionnés d'abord, puis index.html et le service worker, puis
         # suppression des anciens fichiers : un visiteur ne voit jamais une version à moitié envoyée.
+        # Un .ovhconfig (version de PHP chez OVH) présent dans le dossier n'est jamais supprimé.
         run: |
           lftp --env-password -u "$FTP_USER" "$FTP_SERVER" <<LFTP
           set ftp:ssl-allow yes
@@ -94,6 +95,6 @@ jobs:
           mirror --reverse --verbose --parallel=4 --exclude-glob index.html --exclude-glob sw.js dist/ "$FTP_DIR"/
           put -O "$FTP_DIR" dist/index.html
           put -O "$FTP_DIR" dist/sw.js
-          mirror --reverse --delete --only-newer --verbose dist/ "$FTP_DIR"/
+          mirror --reverse --delete --only-newer --verbose --exclude-glob .ovhconfig dist/ "$FTP_DIR"/
           bye
           LFTP

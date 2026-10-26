@@ -44,7 +44,7 @@ https://yarnest.app.
 
 ## Bon à savoir
 
-- Le dossier `www` est **remplacé** par le site : tout autre fichier qui s'y trouve est
+- Le dossier `www` est **remplacé** par le site (sauf un éventuel `.ovhconfig`) : tout autre fichier qui s'y trouve est
   supprimé (par exemple la page d'attente OVH).
 - Les fichiers sont envoyés dans un ordre qui évite les versions à moitié en ligne :
   ressources d'abord, puis `index.html` et le service worker, puis nettoyage.
