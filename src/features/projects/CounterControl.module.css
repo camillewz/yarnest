@@ -28,10 +28,20 @@
   font: var(--text-body);
 }
 
+/* Lien compact sous le libellé : la ligne garde la hauteur du stepper,
+   la cible tactile reste de 48 px grâce à la zone étendue. */
 .reset {
+  position: relative;
   min-width: 0;
+  min-height: 0;
   padding: 0;
   font: var(--text-small);
   color: var(--ink-muted);
   text-decoration: underline;
+}
+
+.reset::before {
+  content: '';
+  position: absolute;
+  inset: calc((var(--space-5) - var(--tap-min)) / 2) calc(var(--space-2) * -1);
 }

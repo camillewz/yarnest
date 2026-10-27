@@ -82,6 +82,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  /* Le dégradé ne capte pas les taps destinés au contenu qu'il recouvre. */
+  pointer-events: none;
+}
+
+.bottom > * {
+  pointer-events: auto;
 }
 
 .section {
