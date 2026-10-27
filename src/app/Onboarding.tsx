@@ -70,15 +70,7 @@ export function Onboarding() {
           aria-label={t('onboarding.step', { current: step, total: STEPS.length })}
         >
           {STEPS.map((s) => (
-            <span key={s} className={cx(styles.dot, s === step && styles.current)}>
-              <Stitch />
-              {s === step && (
-                <>
-                  <Stitch />
-                  <Stitch />
-                </>
-              )}
-            </span>
+            <Stitch key={s} className={cx(s <= step && styles.filled)} />
           ))}
         </div>
         <Button variant="primary" onClick={() => (last ? done() : setStep((s) => (s + 1) as Step))}>
