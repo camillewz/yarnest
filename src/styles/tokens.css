@@ -44,12 +44,11 @@
   --shadow-float: 0 12px 30px rgb(91 52 30 / 12%);
   --shadow-primary: 0 10px 24px rgb(181 87 58 / 28%);
 
-  /* Verre dépoli : boutons ronds d'en-tête, tuiles et barre de navigation. */
+  /* Verre : boutons ronds d'en-tête, tuiles et barre de navigation. Sans flou d'arrière-plan :
+     sur des halos déjà doux il ne change rien à l'œil et ralentit fortement WebKit. */
   --glass: rgb(255 255 255 / 62%);
   --glass-strong: rgb(255 255 255 / 90%);
   --glass-border: rgb(255 255 255 / 80%);
-  --glass-blur: blur(16px);
-  --halo-blur: blur(28px);
   --scrim: rgb(59 42 34 / 18%);
   --on-ink-muted: rgb(255 255 255 / 15%); /* Piste d'anneau sur fond --ink. */
   --on-primary-soft: rgb(255 255 255 / 18%); /* Pastille + sur fond --primary. */

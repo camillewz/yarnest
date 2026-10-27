@@ -1,4 +1,4 @@
-/* Halo flou en haut d'écran : décor seulement (aucun texte en --ink-muted posé dessus). */
+/* Halo en haut d'écran (dégradés radiaux, sans filtre de flou coûteux) : décor seulement (aucun texte en --ink-muted posé dessus). */
 .halo {
   position: absolute;
   /* Sous le contenu, dans le contexte isolé de la page. */
@@ -17,5 +17,4 @@
       color-mix(in srgb, var(--peach) 85%, transparent) 0%,
       transparent 60%
     );
-  filter: var(--halo-blur);
 }
