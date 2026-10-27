@@ -1,4 +1,6 @@
 .chips {
+  /* Hauteur commune des puces : 32 px, la cible tactile du statut déborde sans décaler la ligne. */
+  --chip-height: calc(var(--space-6) + var(--space-2));
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -8,18 +10,19 @@
 .technique {
   display: inline-flex;
   align-items: center;
-  min-height: calc(var(--space-6) + var(--space-2));
+  height: var(--chip-height);
   padding: 0 var(--space-3);
   border-radius: var(--radius-pill);
   background: var(--glass-strong);
   font: var(--text-label);
 }
 
-/* Puce de statut : une liste native habillée, cible de 48 px. */
+/* Puce de statut : une liste native habillée, alignée sur la puce technique. */
 .status {
   position: relative;
   display: inline-flex;
   align-items: center;
+  height: var(--chip-height);
   border-radius: var(--radius-pill);
   background: var(--primary-soft);
   color: var(--primary-strong);
@@ -36,7 +39,9 @@
 }
 
 .statusSelect {
-  min-height: var(--tap-min);
+  /* 48 px de cible, centrés sur la puce de 32 px. */
+  height: var(--tap-min);
+  margin-block: calc((var(--chip-height) - var(--tap-min)) / 2);
   padding: 0 calc(var(--space-6) + var(--space-2)) 0 var(--space-3);
   border: 0;
   border-radius: var(--radius-pill);

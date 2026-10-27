@@ -38,8 +38,9 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  flex: 1;
-  min-height: max(33dvh, var(--tap-primary));
+  /* Hauteur au plus juste : un tiers de l'écran, l'espace libre passe au-dessus (pouce en bas). */
+  min-height: max(calc(100dvh / 3), var(--tap-primary));
+  margin-top: auto;
   padding: 0 var(--space-6);
   overflow: hidden;
   border: 0;
@@ -120,4 +121,12 @@
 .actions > * {
   gap: var(--space-1);
   padding-inline: var(--space-2);
+  white-space: nowrap;
+}
+
+/* Sous 380 px, le libellé seul tient sur une ligne. */
+@media (max-width: 380px) {
+  .actions svg {
+    display: none;
+  }
 }

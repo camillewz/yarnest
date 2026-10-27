@@ -56,6 +56,8 @@ test('E4, feuille de pause, E5, fin de pause, E6, journal', async ({ page }) => 
   await page.getByRole('radio', { name: '4 sur 5' }).click();
   await page.getByRole('button', { name: 'Enregistrer' }).click();
   await expect(page.getByRole('heading', { name: 'Journal' })).toBeVisible();
+  // En fin de page, le bouton « Démarrer » collant ne recouvre plus le journal.
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await expectNoViolations(page);
   await page.getByRole('list').last().getByRole('button').first().click();
   await expectNoViolations(page);
