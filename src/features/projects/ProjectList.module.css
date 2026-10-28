@@ -274,7 +274,6 @@
 .blobIcon {
   width: calc(var(--tap-primary) + var(--space-5));
   height: calc(var(--tap-primary) + var(--space-5));
-  stroke-width: 2.4;
 }
 
 .emptyText {

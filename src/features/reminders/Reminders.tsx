@@ -1,4 +1,4 @@
-import { Coffee } from 'lucide-react';
+import { Coffee } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { safely } from '../../app/toast';

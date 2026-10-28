@@ -1,11 +1,11 @@
-import { ArrowRight, Coffee, NotebookPen } from 'lucide-react';
+import { ArrowRight, Coffee, Notebook, Yarn } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { setSetting } from '../db/repo';
 import { Button } from '../ui/Button';
 import { cx } from '../ui/cx';
 import { Stitch } from '../ui/Knit';
-import { NestIcon } from '../ui/NestIcon';
+import { Wordmark } from '../ui/Logo';
 import { FullScreen } from '../ui/Overlay';
 import { safely } from './toast';
 import styles from './Onboarding.module.css';
@@ -21,9 +21,9 @@ const LOOK: Record<Step, { halo: string; tone: 'terracotta' | 'sage' }> = {
 };
 
 function Shape({ step }: { step: Step }) {
-  if (step === 1) return <NestIcon className={cx(styles.icon, styles.nest)} />;
-  if (step === 2) return <Coffee className={styles.icon} aria-hidden="true" />;
-  return <NotebookPen className={styles.icon} aria-hidden="true" />;
+  if (step === 1) return <Yarn className={styles.icon} weight="light" aria-hidden="true" />;
+  if (step === 2) return <Coffee className={styles.icon} weight="light" aria-hidden="true" />;
+  return <Notebook className={styles.icon} weight="light" aria-hidden="true" />;
 }
 
 /** Onboarding de 3 écrans au premier lancement (Should have). */
@@ -37,7 +37,7 @@ export function Onboarding() {
   return (
     <FullScreen label={t('onboarding.label')} halo={look.halo} className={styles.screen}>
       <div className={styles.top}>
-        <span className={styles.logo}>{t('app.name')}</span>
+        <Wordmark label={t('app.name')} className={styles.logo} />
         {!last && (
           <Button variant="glass" onClick={done}>
             {t('onboarding.skip')}

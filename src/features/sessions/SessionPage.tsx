@@ -1,4 +1,4 @@
-import { ChevronDown, Pause as PauseIcon, Plus, Undo2 } from 'lucide-react';
+import { ArrowCounterClockwise, CaretDown, Pause as PauseIcon, Plus } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router';
@@ -105,7 +105,7 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
       title={project.name}
       backTo={`/projects/${project.id}`}
       backLabel={t('session.minimize')}
-      backIcon={ChevronDown}
+      backIcon={CaretDown}
       compact
       halo="var(--sage-light)"
       className={styles.screen}
@@ -183,7 +183,7 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
 
       <div className={styles.actions}>
         <Button variant="secondary" onClick={() => counter('decrementRow')}>
-          <Undo2 aria-hidden="true" />
+          <ArrowCounterClockwise aria-hidden="true" />
           {t('session.undoRow')}
         </Button>
         <Button variant="dark" onClick={openPauseSheet}>

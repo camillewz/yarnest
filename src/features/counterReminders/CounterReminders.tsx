@@ -1,4 +1,4 @@
-import { Check, Plus, Trash2 } from 'lucide-react';
+import { Check, Plus, Trash } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { safely } from '../../app/toast';
@@ -85,7 +85,7 @@ export function CounterRemindersSection({ project }: { project: Project }) {
                 aria-label={t('counterReminders.delete')}
                 onClick={() => void safely(() => deleteCounterReminder(r.id))}
               >
-                <Trash2 aria-hidden="true" />
+                <Trash aria-hidden="true" />
               </Button>
             </li>
           ))}

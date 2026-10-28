@@ -13,8 +13,7 @@
 }
 
 .logo {
-  font: var(--text-h2);
-  font-family: var(--font-display);
+  color: var(--ink);
 }
 
 .hero {
@@ -41,12 +40,6 @@
 .icon {
   width: calc(var(--tap-primary) * 1.5);
   height: calc(var(--tap-primary) * 1.5);
-  stroke-width: 0.9;
-}
-
-/* Le nid est dessiné sur 64 unités, les icônes Lucide sur 24. */
-.nest {
-  stroke-width: 2.4;
 }
 
 .terracotta {

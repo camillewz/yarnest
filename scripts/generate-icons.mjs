@@ -15,7 +15,7 @@ const targets = [
 const browser = await chromium.launch();
 const page = await browser.newPage();
 for (const { file, size, padding, square } of targets) {
-  const inner = square ? svg.replace('rx="112"', 'rx="0"') : svg;
+  const inner = square ? svg.replace('rx="22"', 'rx="0"') : svg;
   const pad = Math.round(size * padding);
   await page.setViewportSize({ width: size, height: size });
   await page.setContent(

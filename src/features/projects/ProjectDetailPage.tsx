@@ -1,4 +1,4 @@
-import { ChevronDown, Pencil, Play } from 'lucide-react';
+import { CaretDown, PencilSimple, Play } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -76,7 +76,11 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
       }
       actions={
-        <IconLink to={`/projects/${project.id}/edit`} label={t('project.edit')} icon={Pencil} />
+        <IconLink
+          to={`/projects/${project.id}/edit`}
+          label={t('project.edit')}
+          icon={PencilSimple}
+        />
       }
       bottom={
         <Button variant="primary" block large onClick={() => void start()}>
@@ -149,7 +153,7 @@ function StatusSelect({ project }: { project: Project }) {
           </option>
         ))}
       </select>
-      <ChevronDown className={styles.statusIcon} aria-hidden="true" />
+      <CaretDown className={styles.statusIcon} aria-hidden="true" />
     </span>
   );
 }

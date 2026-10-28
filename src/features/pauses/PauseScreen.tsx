@@ -1,4 +1,4 @@
-import { Coffee } from 'lucide-react';
+import { Coffee } from '@phosphor-icons/react';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatClock, formatDuration } from '../../domain/format';
