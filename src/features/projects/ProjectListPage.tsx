@@ -1,4 +1,4 @@
-import { ChevronRight, NotebookPen, Plus, SlidersHorizontal } from 'lucide-react';
+import { CaretRight, Notebook, Plus, SlidersHorizontal, Yarn } from '@phosphor-icons/react';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -17,7 +17,6 @@ import { cardClass } from '../../ui/Card';
 import { cx } from '../../ui/cx';
 import { IconLink } from '../../ui/IconLink';
 import { KnitTexture, Stitch, Swatch } from '../../ui/Knit';
-import { NestIcon } from '../../ui/NestIcon';
 import { Page, pageStyles } from '../../ui/Page';
 import { Ring } from '../../ui/Ring';
 import { Tabs } from '../../ui/Tabs';
@@ -70,7 +69,7 @@ export function ProjectListPage() {
         {header}
         <div className={styles.empty}>
           <span className={styles.blob} aria-hidden="true">
-            <NestIcon className={styles.blobIcon} />
+            <Yarn className={styles.blobIcon} weight="light" />
           </span>
           <h2>{t('projects.emptyTitle')}</h2>
           <p className={styles.emptyText}>{t('projects.emptyText')}</p>
@@ -90,7 +89,7 @@ export function ProjectListPage() {
       {pendingSession && pendingProject && (
         <Link to={`/sessions/${pendingSession.id}/review`} className={cx(cardClass, styles.review)}>
           <span className={styles.reviewIcon} aria-hidden="true">
-            <NotebookPen />
+            <Notebook />
           </span>
           <span className={styles.reviewText}>
             <span className={styles.reviewTitle}>{t('projects.pendingReviewTitle')}</span>
@@ -260,7 +259,7 @@ function ProjectCard({ project, meta }: { project: Project; meta: string[] }) {
         </span>
         <Badge label={t(`status.${project.status}`)} tone={statusTone(project.status)} />
       </span>
-      <ChevronRight className={styles.chevron} aria-hidden="true" />
+      <CaretRight className={styles.chevron} aria-hidden="true" />
     </Link>
   );
 }

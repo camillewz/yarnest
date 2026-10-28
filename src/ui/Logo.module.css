@@ -1,0 +1,6 @@
+/* Proportions du logo de la maquette (284 × 108). */
+.wordmark {
+  display: block;
+  width: auto;
+  height: var(--space-6);
+}

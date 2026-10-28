@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { X } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';

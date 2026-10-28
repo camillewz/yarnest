@@ -1,4 +1,4 @@
-import { ArrowLeft, type LucideIcon } from 'lucide-react';
+import { ArrowLeft, type Icon } from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -14,7 +14,7 @@ interface PageProps {
   backTo?: string;
   /** Libellé et icône du bouton retour, « Retour » et flèche par défaut. */
   backLabel?: string;
-  backIcon?: LucideIcon;
+  backIcon?: Icon;
   actions?: ReactNode;
   children?: ReactNode;
   bottom?: ReactNode;

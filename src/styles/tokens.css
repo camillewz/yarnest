@@ -59,14 +59,15 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-heading: "Figtree", system-ui, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
-  /* Fraunces pour le logo et les titres d'écran (h1, h2) ; Figtree pour l'interface et les chiffres. */
+  /* Fraunces pour les titres d'écran (h1, h2), le minuteur et le compteur de rangs ; Figtree pour
+     l'interface et les autres chiffres. Fraunces n'a pas de chiffres tabulaires. */
   --text-display: 520 44px/48px var(--font-display); /* Accueil « Bonsoir. ». */
   --text-h1: 520 36px/42px var(--font-display);
   --text-h2: 540 24px/30px var(--font-display);
   --text-title: 600 17px/22px var(--font-heading); /* Boutons, titres de carte. */
   --text-stat: 600 26px/30px var(--font-heading); /* Tuiles et valeurs de compteurs. */
-  --text-counter: 500 56px/60px var(--font-heading);
-  --text-counter-xl: 500 92px/96px var(--font-heading); /* Rang de la zone +1. */
+  --text-counter: 560 56px/60px var(--font-display); /* Minuteur de session et de pause. */
+  --text-counter-xl: 560 92px/96px var(--font-display); /* Rang de la zone +1. */
   --text-label: 600 13px/16px var(--font-heading);
   --text-body: 400 16px/1.5 var(--font-body);
   --text-small: 400 14px/20px var(--font-body);

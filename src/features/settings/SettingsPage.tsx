@@ -1,4 +1,4 @@
-import { Download, Upload } from 'lucide-react';
+import { DownloadSimple, UploadSimple } from '@phosphor-icons/react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isIos, promptInstall, useInstall } from '../../app/install';
@@ -157,11 +157,11 @@ function BackupActions() {
   return (
     <div className={styles.actions}>
       <Button variant="secondary" block onClick={() => void exportData()}>
-        <Download aria-hidden="true" />
+        <DownloadSimple aria-hidden="true" />
         {t('settings.export')}
       </Button>
       <Button variant="secondary" block onClick={() => input.current?.click()}>
-        <Upload aria-hidden="true" />
+        <UploadSimple aria-hidden="true" />
         {t('settings.import')}
       </Button>
       <input
