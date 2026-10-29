@@ -1,0 +1,11 @@
+.digit::before,
+.char::before {
+  content: attr(data-char);
+}
+
+/* 1ch = chasse du « 0 », le chiffre le plus large de Fraunces. */
+.digit {
+  display: inline-block;
+  width: 1ch;
+  text-align: center;
+}

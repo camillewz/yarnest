@@ -5,6 +5,7 @@ import { formatClock, formatDuration } from '../../domain/format';
 import { pauseCountdown } from '../../domain/pauses';
 import type { Locale, Pause } from '../../domain/types';
 import { Button } from '../../ui/Button';
+import { Digits } from '../../ui/Digits';
 import { FullScreen, overlayStyles } from '../../ui/Overlay';
 import { Ring } from '../../ui/Ring';
 import { chime, vibrate } from './feedback';
@@ -66,7 +67,7 @@ export function PauseScreen({
         <Ring progress={1 - countdown.remainingMs / plannedMs} detailed className={styles.ring}>
           <span className="eyebrow">{t('pause.title')}</span>
           <span className="counter" role="timer" aria-label={t('pause.remaining')}>
-            {formatClock(countdown.remainingMs)}
+            <Digits value={formatClock(countdown.remainingMs)} />
           </span>
         </Ring>
       )}
