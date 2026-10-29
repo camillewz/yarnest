@@ -21,9 +21,9 @@ const LOOK: Record<Step, { halo: string; tone: 'terracotta' | 'sage' }> = {
 };
 
 function Shape({ step }: { step: Step }) {
-  if (step === 1) return <Yarn className={styles.icon} weight="light" aria-hidden="true" />;
-  if (step === 2) return <Coffee className={styles.icon} weight="light" aria-hidden="true" />;
-  return <Notebook className={styles.icon} weight="light" aria-hidden="true" />;
+  if (step === 1) return <Yarn className={styles.icon} weight="thin" aria-hidden="true" />;
+  if (step === 2) return <Coffee className={styles.icon} weight="thin" aria-hidden="true" />;
+  return <Notebook className={styles.icon} weight="thin" aria-hidden="true" />;
 }
 
 /** Onboarding de 3 écrans au premier lancement (Should have). */

@@ -69,7 +69,7 @@ export function ProjectListPage() {
         {header}
         <div className={styles.empty}>
           <span className={styles.blob} aria-hidden="true">
-            <Yarn className={styles.blobIcon} weight="light" />
+            <Yarn className={styles.blobIcon} weight="thin" />
           </span>
           <h2>{t('projects.emptyTitle')}</h2>
           <p className={styles.emptyText}>{t('projects.emptyText')}</p>

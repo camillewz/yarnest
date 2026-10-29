@@ -13,6 +13,7 @@ import { sessionTimes } from '../../domain/time';
 import type { Locale, Pause, Project, Session } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { Card } from '../../ui/Card';
+import { Digits } from '../../ui/Digits';
 import { KnitTexture } from '../../ui/Knit';
 import { ConfirmDialog } from '../../ui/Overlay';
 import { Page, PageMessage } from '../../ui/Page';
@@ -127,7 +128,7 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
         <Ring progress={ring?.progress ?? 0} detailed className={styles.ring}>
           <span className="eyebrow">{t('session.knitLabel')}</span>
           <span className="counter" data-testid="knit-time">
-            {formatClock(times.knitMs)}
+            <Digits value={formatClock(times.knitMs)} />
           </span>
           {ring?.reminder && (
             <span className={styles.nextPause}>
@@ -156,7 +157,7 @@ function SessionScreen({ session, project, pauses, onEnding }: SessionScreenProp
         <span className={styles.rowCount}>
           <span className={styles.rowLabel}>{t('session.row')}</span>
           <span className={styles.rowValue} data-testid="row-count">
-            {project.rowCount}
+            <Digits value={project.rowCount} />
           </span>
         </span>
         <span className="visually-hidden">

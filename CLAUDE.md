@@ -90,7 +90,7 @@ Spécification complète : docs/SPEC.md. La lire avant toute tâche.
 - `--accent` (sauge) : rappels de rangs et de pause, statut « en cours ». Fonds doux : `--primary-soft`, `--accent-soft` ; texte dessus en `--primary-strong` / `--accent-ink`.
 - Laine des projets : `--yarn-*`, choisie depuis l'identifiant (`yarnSwatch`), sans champ stocké.
 - `--alert` : douleurs et suppressions uniquement, toujours doublé d'une icône ou d'un libellé (jamais la couleur seule).
-- Typo : Fraunces (`--font-display`) pour le logo et les titres d'écran (`--text-display`, `--text-h1`, `--text-h2`) ; Figtree pour l'interface et les chiffres (`--text-title`, `--text-stat`, `--text-label`, `.counter`, `--text-counter-xl`) ; `--text-body`, `--text-small` (Atkinson Hyperlegible Next).
+- Typo : Fraunces (`--font-display`) pour les titres d'écran (`--text-display`, `--text-h1`, `--text-h2`), le minuteur et le compteur de rangs (`.counter`, `--text-counter-xl`, chiffres via `Digits` : largeur fixe) ; Figtree pour l'interface et les autres chiffres (`--text-title`, `--text-stat`, `--text-label`) ; `--text-body`, `--text-small` (Atkinson Hyperlegible Next). Logo : `Wordmark` (`src/ui/Logo.tsx`).
 - Formes : `--radius-md` boutons, `--radius-lg` cartes et tuiles, `--radius-xl` zone +1 rang et feuilles, `--radius-pill` minuteur, compteur, badges, `--radius-sm` champs.
 - Espacements : `--space-1/2/3/4/5/6` uniquement ; marge latérale mobile `--space-4`.
 - Navigation flottante (`FloatingNav` : Projets · + · Journal) sur E1 et le journal global uniquement.
@@ -103,4 +103,4 @@ Spécification complète : docs/SPEC.md. La lire avant toute tâche.
 ### Ton
 
 Calme, pratique, tutoiement. Jamais santé ni performance : « Session terminée — 42 min tricotées. » plutôt que « Objectif atteint ! ».
-Icônes linéaires arrondies (Lucide, `lucide-react`), couleur `--ink` ou `--ink-muted`. Formes abstraites, pas d'illustrations de pelotes.
+Icônes Phosphor (`@phosphor-icons/react`), couleur `--ink` ou `--ink-muted` ; graisse selon la taille : ≤ 32 px `regular`, 33–64 px `light`, > 64 px `thin`. Formes abstraites, pas d'illustrations de pelotes.
