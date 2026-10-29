@@ -1,6 +1,8 @@
-/* Proportions du logo de la maquette (284 × 108). */
+/* Proportions 284 × 108. Hauteur par défaut : une ligne du texte courant, donc elle suit la
+   typo de l'endroit et la taille de texte choisie par l'utilisatrice. */
 .wordmark {
   display: block;
+  flex-shrink: 0;
   width: auto;
-  height: var(--space-6);
+  height: 1lh;
 }
