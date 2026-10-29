@@ -13,6 +13,7 @@
 }
 
 .logo {
+  font: var(--text-h2);
   color: var(--ink);
 }
 
